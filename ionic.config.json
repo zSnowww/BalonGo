@@ -1,0 +1,7 @@
+{
+  "name": "Gastonsillo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

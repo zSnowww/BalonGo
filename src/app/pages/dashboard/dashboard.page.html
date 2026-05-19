@@ -1,0 +1,88 @@
+<ion-content class="dashboard-content">
+  <div class="dashboard-wrapper">
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Hola, Usuario</h1>
+        <p>
+          Este es el resumen de tu actividad de hoy.
+        </p>
+      </div>
+      <div
+        class="logout-icon"
+        routerLink="/login">
+        ⎋
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card clientes-card"
+        routerLink="/clientes">
+        <div class="stat-icon clientes-icon">
+          👥
+        </div>
+        <h2>Clientes</h2>
+        <p>
+          Administrar registros y datos
+        </p>
+      </div>
+      <div class="stat-card productos-card"
+        routerLink="/productos">
+        <div class="stat-icon productos-icon">
+          📦
+        </div>
+        <h2>Productos</h2>
+        <p>
+          Control de stock y productos
+        </p>
+      </div>
+      <div class="stat-card perfil-card"
+        routerLink="/perfil">
+        <div class="stat-icon perfil-icon">
+          👤
+        </div>
+        <h2>Perfil</h2>
+        <p>
+          Información del usuario
+        </p>
+      </div>
+    </div>
+    <div class="section-title">
+      Actividad Reciente
+    </div>
+    <div class="activity-container">
+      <div class="activity-card">
+        <div class="activity-left">
+          <div class="activity-icon success">
+            ✓
+          </div>
+          <div class="activity-info">
+            <h3>Pedido completado</h3>
+            <p>Hace 2 horas</p>
+          </div>
+        </div>
+        <span>$45.00</span>
+      </div>
+      <div class="activity-card">
+        <div class="activity-left">
+          <div class="activity-icon warning">
+            !
+          </div>
+          <div class="activity-info">
+            <h3>Revisión de stock</h3>
+            <p>Hace 5 horas</p>
+          </div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-left">
+          <div class="activity-icon primary">
+            +
+          </div>
+          <div class="activity-info">
+            <h3>Nuevo cliente</h3>
+            <p>Hace 1 día</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,152 @@
+.login-content {
+  --background:
+  linear-gradient(
+    180deg,
+    #032451 0%,
+    #12325c 100%
+  );
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+.logo-box {
+  width: 92px;
+  height: 92px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+h1 {
+  color: white;
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.75);
+  margin-top: 10px;
+  margin-bottom: 42px;
+  font-size: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  background: #f5f7fa;
+  border-radius: 34px;
+  padding: 30px 24px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-box {
+  height: 60px;
+  background: white;
+  border: 1px solid #d9dee7;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.input-icon {
+  font-size: 1.3rem;
+  color: #ebb810;
+  margin-right: 12px;
+}
+
+.eye-icon {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+ion-input {
+  --color: #02162f;
+  --placeholder-color: #6b7280;
+  font-size: 0.96rem;
+}
+
+.options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  margin-bottom: 28px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.remember span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.remember input {
+  accent-color: #ebb810;
+}
+
+.forgot-password {
+  color: #032451;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-btn {
+  height: 56px;
+  --background:
+  linear-gradient(
+    135deg,
+    #ebb810,
+    #f4c542
+  );
+  --color: #032451;
+  --border-radius: 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 25px rgba(235,184,16,0.35);
+}
+
+.register-text {
+  margin-top: 34px;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.register-text span {
+  color: #ebb810;
+  font-weight: 700;
+}

@@ -1,0 +1,63 @@
+<ion-content class="perfil-content">
+  <div class="perfil-wrapper">
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Mi Perfil</h1>
+        <p>Información del administrador</p>
+      </div>
+      <div
+        class="back-icon"
+        routerLink="/dashboard">
+        ✕
+      </div>
+    </div>
+    <div class="profile-card">
+      <div class="profile-banner"></div>
+      <div class="profile-avatar">
+        <img
+          src="assets/img/Gastonsillo.png"
+          alt="Perfil">
+      </div>
+      <div class="profile-info-main">
+        <h2>{{ perfil.nombre }}</h2>
+        <p class="role">
+          {{ perfil.rol }}
+        </p>
+      </div>
+      <div class="info-list">
+        <div class="info-card">
+          <div class="info-icon email">
+            ✉️
+          </div>
+          <div class="info-text">
+            <span>Correo</span>
+            <h3>{{ perfil.correo }}</h3>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon phone">
+            📞
+          </div>
+          <div class="info-text">
+            <span>Teléfono</span>
+            <h3>{{ perfil.telefono }}</h3>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon location">
+            📍
+          </div>
+          <div class="info-text">
+            <span>Ubicación</span>
+            <h3>{{ perfil.direccion }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="logout-btn"
+      routerLink="/login">
+      Cerrar Sesión
+    </button>
+  </div>
+</ion-content>

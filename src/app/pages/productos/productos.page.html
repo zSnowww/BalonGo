@@ -1,0 +1,95 @@
+<ion-content class="productos-content">
+  <div class="productos-wrapper">
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Productos</h1>
+        <p>Gestión de productos registrados</p>
+      </div>
+      <div
+        class="close-icon"
+        routerLink="/dashboard">
+        ✕
+      </div>
+    </div>
+    <div class="search-box">
+      <ion-input
+        placeholder="Buscar producto..."
+        type="text">
+      </ion-input>
+    </div>
+    <div class="productos-container">
+      <div
+        class="producto-card"
+        *ngFor="let producto of productos; let i = index">
+        <div class="producto-left">
+          <div class="producto-icon">
+            {{ producto.icono }}
+          </div>
+          <div class="producto-info">
+            <h2>
+              {{ producto.nombre }}
+            </h2>
+            <p>
+              Stock disponible: {{ producto.stock }}
+            </p>
+          </div>
+        </div>
+        <div class="producto-actions">
+          <button
+            class="edit-btn"
+            (click)="editarProducto(i)">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="eliminarProducto(i)">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="fab-button"
+      (click)="toggleFormulario()">
+      +
+    </div>
+    <div
+      class="modal-overlay"
+      *ngIf="mostrarFormulario">
+      <div class="modal-form">
+        <h2>
+          {{
+            editando
+            ? 'Editar Producto'
+            : 'Nuevo Producto'
+          }}
+        </h2>
+        <ion-input
+          placeholder="Nombre"
+          [(ngModel)]="nuevoNombre">
+        </ion-input>
+        <ion-input
+          placeholder="Stock"
+          type="number"
+          [(ngModel)]="nuevoStock">
+        </ion-input>
+        <div class="modal-buttons">
+          <button
+            class="cancel-btn"
+            (click)="toggleFormulario()">
+            Cancelar
+          </button>
+          <button
+            class="add-btn"
+            (click)="guardarProducto()">
+            {{
+              editando
+              ? 'Guardar'
+              : 'Agregar'
+            }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

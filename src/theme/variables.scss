@@ -1,0 +1,23 @@
+// For information on how to create your own theme, please refer to:
+// https://ionicframework.com/docs/theming/
+/* Colores personalizados Gastonsillo */
+
+:root {
+    --ion-color-primary: #032451;
+    --ion-color-primary-rgb: 3, 36, 81;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #032046;
+    --ion-color-primary-tint: #1c3a67;
+    --ion-color-secondary: #ebb810;
+    --ion-color-secondary-rgb: 235, 184, 16;
+    --ion-color-secondary-contrast: #000000;
+    --ion-color-secondary-contrast-rgb: 0, 0, 0;
+    --ion-color-secondary-shade: #cfa20e;
+    --ion-color-secondary-tint: #edbf28;
+    --ion-color-success: #1f8a70;
+    --ion-color-success-rgb: 31, 138, 112;
+    --ion-color-success-contrast: #ffffff;
+    --ion-background-color: #f5f7fa;
+    --ion-text-color: #02162f;
+}

@@ -1,0 +1,243 @@
+.clientes-content {
+  --background: #f5f7fa;
+}
+
+.clientes-wrapper {
+  padding: 22px;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 28px;
+}
+
+.header-text h1 {
+  color: #02162f;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.header-text p {
+  color: #6b7280;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.back-icon {
+  width: 48px;
+  height: 48px;
+  background: #032451;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow:
+  0 8px 20px rgba(3,36,81,0.25);
+}
+
+.search-box {
+  height: 62px;
+  background: white;
+  border-radius: 22px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  box-shadow:
+  0 8px 22px rgba(0,0,0,0.05);
+}
+
+.search-icon {
+  font-size: 1.1rem;
+  color: #6b7280;
+}
+
+.search-box ion-input {
+  --color: #02162f;
+  --placeholder-color: #9ca3af;
+  font-size: 0.96rem;
+}
+
+.clientes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cliente-card {
+  background: white;
+  border-radius: 28px;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.cliente-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 22px;
+  background:
+  linear-gradient(
+    135deg,
+    #ebb810,
+    #f4c542
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #032451;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.cliente-info h2 {
+  margin: 0;
+  color: #02162f;
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.cliente-info p {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.92rem;
+}
+
+.cliente-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.edit-btn {
+  background:
+  rgba(3,36,81,0.12);
+  color: #032451;
+}
+
+.delete-btn {
+  background:
+  rgba(239,68,68,0.12);
+  color: #ef4444;
+}
+
+.fab-button {
+  position: fixed;
+  right: 24px;
+  bottom: 28px;
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background:
+  linear-gradient(
+    135deg,
+    #032451,
+    #1c3a67
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 12px 28px rgba(3,36,81,0.25);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 999;
+}
+
+.modal-form {
+  width: 100%;
+  max-width: 360px;
+  background: white;
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+.modal-form h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #02162f;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.modal-form ion-input {
+  height: 56px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  margin-bottom: 16px;
+  padding: 0 14px;
+  --color: #02162f;
+  --placeholder-color: #9ca3af;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.cancel-btn,
+.add-btn {
+  flex: 1;
+  height: 52px;
+  border: none;
+  border-radius: 18px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.cancel-btn {
+  background: #eef2f7;
+  color: #02162f;
+}
+
+.add-btn {
+  background:
+  linear-gradient(
+    135deg,
+    #032451,
+    #1c3a67
+  );
+  color: white;
+}

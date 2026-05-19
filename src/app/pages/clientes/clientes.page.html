@@ -1,0 +1,89 @@
+<ion-content class="clientes-content">
+  <div class="clientes-wrapper">
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Clientes</h1>
+        <p>Gestión de clientes registrados</p>
+      </div>
+      <div
+        class="back-icon"
+        routerLink="/dashboard">
+        ✕
+      </div>
+    </div>
+    <div class="search-box">
+      <div class="search-icon">
+        🔎
+      </div>
+      <ion-input
+        placeholder="Buscar cliente..."
+        type="text">
+      </ion-input>
+    </div>
+    <div class="clientes-list">
+      <div
+        class="cliente-card"
+        *ngFor="let cliente of clientes; let i = index">
+        <div class="cliente-left">
+          <div class="avatar">
+            {{ cliente.iniciales }}
+          </div>
+          <div class="cliente-info">
+            <h2>
+              {{ cliente.nombre }}
+            </h2>
+            <p>
+              {{ cliente.telefono }}
+            </p>
+          </div>
+        </div>
+        <div class="cliente-actions">
+          <button
+            class="edit-btn"
+            (click)="editarCliente(i)">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="eliminarCliente(i)">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="fab-button"
+      (click)="toggleFormulario()">
+      +
+    </div>
+    <div
+      class="modal-overlay"
+      *ngIf="mostrarFormulario">
+      <div class="modal-form">
+        <h2>
+          {{ editando ? 'Editar Cliente' : 'Nuevo Cliente' }}
+        </h2>
+        <ion-input
+          placeholder="Nombre"
+          [(ngModel)]="nuevoNombre">
+        </ion-input>
+        <ion-input
+          placeholder="Teléfono"
+          [(ngModel)]="nuevoTelefono">
+        </ion-input>
+        <div class="modal-buttons">
+          <button
+            class="cancel-btn"
+            (click)="toggleFormulario()">
+            Cancelar
+          </button>
+          <button
+            class="add-btn"
+            (click)="guardarCliente()">
+            {{ editando ? 'Guardar' : 'Agregar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
