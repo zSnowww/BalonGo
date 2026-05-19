@@ -19,8 +19,9 @@
             class="input-icon">
           </ion-icon>
           <ion-input
-            type="text"
-            placeholder="Correo electrónico">
+            type="email"
+            placeholder="Correo electrónico"
+            [(ngModel)]="email">
           </ion-input>
         </div>
         <div class="input-box">
@@ -29,12 +30,14 @@
             class="input-icon">
           </ion-icon>
           <ion-input
-            type="password"
-            placeholder="Contraseña">
+            [type]="mostrarPassword ? 'text' : 'password'"
+            placeholder="Contraseña"
+            [(ngModel)]="password">
           </ion-input>
           <ion-icon
-            name="eye-off-outline"
-            class="eye-icon">
+            [name]="mostrarPassword ? 'eye-outline' : 'eye-off-outline'"
+            class="eye-icon"
+            (click)="togglePassword()">
           </ion-icon>
         </div>
       </div>
@@ -50,7 +53,7 @@
       <ion-button
         expand="block"
         class="login-btn"
-        routerLink="/dashboard">
+        (click)="ingresar()">
         INGRESAR
       </ion-button>
     </div>
