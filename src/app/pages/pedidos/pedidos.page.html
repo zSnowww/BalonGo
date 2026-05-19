@@ -46,7 +46,7 @@
       <div class="pedido-card" *ngFor="let pedido of pedidosFiltrados">
         <div class="pedido-header">
           <div class="pedido-avatar">
-            {{ pedido.clienteNombre.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2) }}
+          {{ obtenerIniciales(pedido.clienteNombre) }}
           </div>
           <div class="pedido-info">
             <h2>{{ pedido.clienteNombre }}</h2>

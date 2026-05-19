@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonInput, IonSelect, IonSelectOption, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonInput, AlertController } from '@ionic/angular/standalone';
 
 import { PedidosService } from '../../services/pedidos.service';
 import { ClientesService } from '../../services/clientes';
@@ -19,9 +19,7 @@ import { Cliente } from '../../models/cliente.model';
     FormsModule,
     RouterLink,
     IonContent,
-    IonInput,
-    IonSelect,
-    IonSelectOption
+    IonInput
   ]
 })
 export class PedidosPage implements OnInit {
@@ -161,5 +159,14 @@ export class PedidosPage implements OnInit {
 
   contarPorEstado(estado: EstadoPedido): number {
     return this.pedidos.filter((p) => p.estado === estado).length;
+  }
+
+  obtenerIniciales(nombre: string): string {
+    return nombre
+      .split(' ')
+      .map((p) => p[0] ?? '')
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   }
 }

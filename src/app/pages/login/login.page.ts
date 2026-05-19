@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonInput, IonButton, LoadingController, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonInput, IonButton, IonIcon, LoadingController, AlertController } from '@ionic/angular/standalone';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonInput, IonButton]
+  imports: [CommonModule, FormsModule, IonContent, IonInput, IonButton, IonIcon]
 })
 export class LoginPage {
   private authService = inject(AuthService);
