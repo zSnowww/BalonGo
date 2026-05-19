@@ -1,24 +1,18 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { Auth, user } from '@angular/fire/auth';
-import { map, take } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
-/**
- * AuthGuard — Protege las rutas privadas.
- * Redirige al login si el usuario no tiene sesión activa.
- */
-export const authGuard: CanActivateFn = () => {
-  const auth = inject(Auth);
+export const authGuard: CanActivateFn = async () => {
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  return user(auth).pipe(
-    take(1),
-    map((currentUser) => {
-      if (currentUser) {
-        return true;
-      }
-      router.navigate(['/login']);
-      return false;
-    })
-  );
+  // Espera a que Firebase resuelva el estado de autenticación
+  const user = await authService.waitForAuth();
+
+  if (user) {
+    return true;
+  }
+
+  await router.navigate(['/login'], { replaceUrl: true });
+  return false;
 };

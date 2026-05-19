@@ -1,54 +1,60 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  Firestore,
+  getFirestore,
   collection,
-  collectionData,
-  doc,
+  onSnapshot,
   addDoc,
   updateDoc,
   deleteDoc,
+  doc,
   query,
   orderBy,
   serverTimestamp
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Pedido, EstadoPedido } from '../models/pedido.model';
 
 @Injectable({ providedIn: 'root' })
 export class PedidosService {
-  private firestore = inject(Firestore);
-  private pedidosRef = collection(this.firestore, 'pedidos');
+  private db = getFirestore();
 
-  /** Observable en tiempo real de todos los pedidos, ordenados por fecha desc */
+  /** Observable en tiempo real de pedidos ordenados por fecha descendente */
   obtenerPedidos(): Observable<Pedido[]> {
-    const q = query(this.pedidosRef, orderBy('fecha', 'desc'));
-    return collectionData(q, { idField: 'id' }) as Observable<Pedido[]>;
+    return new Observable((subscriber) => {
+      const ref = collection(this.db, 'pedidos');
+      const q = query(ref, orderBy('fecha', 'desc'));
+      const unsub = onSnapshot(
+        q,
+        (snapshot) => {
+          const pedidos = snapshot.docs.map((d) => ({
+            id: d.id,
+            ...(d.data() as Omit<Pedido, 'id'>)
+          }));
+          subscriber.next(pedidos);
+        },
+        (error) => subscriber.error(error)
+      );
+      return unsub;
+    });
   }
 
-  /** Crea un nuevo pedido con estado inicial "pendiente" */
   async crearPedido(pedido: Omit<Pedido, 'id' | 'estado' | 'fecha'>): Promise<void> {
-    await addDoc(this.pedidosRef, {
+    await addDoc(collection(this.db, 'pedidos'), {
       ...pedido,
       estado: 'pendiente' as EstadoPedido,
       fecha: serverTimestamp()
     });
   }
 
-  /** Actualiza el estado de un pedido: pendiente → en-proceso → entregado */
   async actualizarEstado(id: string, estado: EstadoPedido): Promise<void> {
-    const pedidoDoc = doc(this.firestore, `pedidos/${id}`);
-    await updateDoc(pedidoDoc, { estado });
+    await updateDoc(doc(this.db, 'pedidos', id), { estado });
   }
 
-  /** Actualiza los datos de un pedido existente */
   async actualizarPedido(id: string, datos: Partial<Pedido>): Promise<void> {
-    const pedidoDoc = doc(this.firestore, `pedidos/${id}`);
-    await updateDoc(pedidoDoc, { ...datos });
+    await updateDoc(doc(this.db, 'pedidos', id), { ...datos });
   }
 
-  /** Elimina un pedido por su id */
   async eliminarPedido(id: string): Promise<void> {
-    const pedidoDoc = doc(this.firestore, `pedidos/${id}`);
-    await deleteDoc(pedidoDoc);
+    await deleteDoc(doc(this.db, 'pedidos', id));
   }
 }

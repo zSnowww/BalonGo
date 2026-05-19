@@ -1,35 +1,54 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
-  Auth,
+  getAuth,
   signInWithEmailAndPassword,
   signOut,
-  user,
+  onAuthStateChanged,
   User
-} from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+} from 'firebase/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private auth = inject(Auth);
+  private auth = getAuth();
+  private userSubject = new BehaviorSubject<User | null>(null);
 
-  /** Observable del usuario activo (null si no hay sesión) */
-  currentUser$: Observable<User | null> = user(this.auth);
+  /** Observable del usuario autenticado */
+  user$: Observable<User | null> = this.userSubject.asObservable();
 
-  /**
-   * Inicia sesión con correo y contraseña.
-   * Lanza un error si las credenciales son inválidas.
-   */
+  /** Usuario actual (síncrono) */
+  get currentUser(): User | null {
+    return this.userSubject.value;
+  }
+
+  constructor(private router: Router) {
+    onAuthStateChanged(this.auth, (user) => {
+      this.userSubject.next(user);
+    });
+  }
+
   async login(email: string, password: string): Promise<void> {
     await signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  /** Cierra la sesión activa */
   async logout(): Promise<void> {
     await signOut(this.auth);
+    await this.router.navigate(['/login'], { replaceUrl: true });
   }
 
-  /** Devuelve el usuario activo en este momento (sincrónico) */
-  get currentUser(): User | null {
-    return this.auth.currentUser;
+  /** Devuelve true si hay sesión activa */
+  isAuthenticated(): boolean {
+    return this.auth.currentUser !== null;
+  }
+
+  /** Espera a que Firebase Auth resuelva el estado inicial */
+  waitForAuth(): Promise<User | null> {
+    return new Promise((resolve) => {
+      const unsub = onAuthStateChanged(this.auth, (user) => {
+        unsub();
+        resolve(user);
+      });
+    });
   }
 }

@@ -4,16 +4,12 @@
 export const environment = {
   production: false,
   firebase: {
-    // ⚠️  REEMPLAZA ESTOS VALORES con los de tu proyecto Firebase:
-    // 1. Ve a https://console.firebase.google.com
-    // 2. Crea o selecciona tu proyecto
-    // 3. Ve a Configuración del proyecto > Tus apps > Web app
-    // 4. Copia los valores de firebaseConfig aquí
-    apiKey: 'TU_API_KEY',
-    authDomain: 'TU_PROYECTO.firebaseapp.com',
-    projectId: 'TU_PROYECTO_ID',
-    storageBucket: 'TU_PROYECTO.appspot.com',
-    messagingSenderId: 'TU_MESSAGING_SENDER_ID',
-    appId: 'TU_APP_ID'
+    apiKey: "AIzaSyD4OWNKRt1kLz5gft9ZprZABU1lvn5aNP4",
+    authDomain: "balongo-9ec7f.firebaseapp.com",
+    projectId: "balongo-9ec7f",
+    storageBucket: "balongo-9ec7f.firebasestorage.app",
+    messagingSenderId: "665940965511",
+    appId: "1:665940965511:web:94047aa0201a00333ee022",
+    measurementId: "G-GFWD2RDKFS"
   }
-};
+}
