@@ -1,231 +1,221 @@
-# 🦁 Gastonsillo — Guía de Inicio Rápido
+# ⚽ BalónGo — Sistema de Gestión de Pedidos y Entregas
 
-Bienvenido a **Gastonsillo**, una aplicación móvil y web híbrida desarrollada con **Ionic Framework** y **Angular**. 
-
-Esta guía está diseñada de forma **sencilla y a prueba de errores** para que cualquier desarrollador (sin importar su nivel de experiencia) pueda clonar el proyecto, preparar el entorno de desarrollo, levantar la aplicación en su máquina local y colaborar de forma ordenada siguiendo las mejores prácticas de Git.
+> **Distribuidora Rogas S.R.L.** — Gestión integral de pedidos de balones de gas con seguimiento en tiempo real.
 
 ---
 
 ## 📊 Tecnologías Utilizadas
 
-Para facilitar el desarrollo, el proyecto utiliza las siguientes tecnologías clave:
-
 ![Angular](https://img.shields.io/badge/Angular-20.x-dd0031?style=for-the-badge&logo=angular&logoColor=white)
 ![Ionic](https://img.shields.io/badge/Ionic-8.x-3880ff?style=for-the-badge&logo=ionic&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-12.x-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.x-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=for-the-badge&logo=typescript&logoColor=white)
-![Git](https://img.shields.io/badge/Git-Workflow-f05032?style=for-the-badge&logo=git&logoColor=white)
+
+---
+
+## 🚀 Funcionalidades
+
+| Módulo | Descripción |
+|---|---|
+| 🔐 **Autenticación** | Login con Firebase Auth, AuthGuard en rutas privadas |
+| 👥 **Clientes** | CRUD completo, búsqueda, validación de duplicados por teléfono |
+| 📦 **Pedidos** | Crear pedidos, asignar repartidor, transición de estados |
+| 📊 **Dashboard** | Conteos en tiempo real (pendientes, en reparto, entregados) |
+| 📋 **Historial** | Registro de entregas con filtros por fecha y búsqueda |
+| 👤 **Perfil** | Datos del usuario, estadísticas, cambio de contraseña |
+| 🔔 **Feedback** | Toasts de confirmación en cada acción del usuario |
+
+### Flujo de un pedido
+```
+📥 Pendiente  →  🚚 En proceso  →  ✅ Entregado
+```
 
 ---
 
 ## 🗺️ Tabla de Contenidos
-1. [🛠️ Requisitos Previos (Instalar Primero)](#️-requisitos-previos-instalar-primero)
-2. [📥 Paso 1: Descargar el Proyecto (Clonar)](#-paso-1-descargar-el-proyecto-clonar)
-3. [⚙️ Paso 2: Preparar el Entorno (Instalar dependencias)](#️-paso-2-preparar-el-entorno-instalar-dependencias)
-4. [⚡ Paso 3: Levantar la Web (Ejecutar en local)](#-paso-3-levantar-la-web-ejecutar-en-local)
-5. [🌿 Paso 4: Cómo Desarrollar una Nueva Feature (Flujo de Ramas)](#-paso-4-cómo-desarrollar-una-nueva-feature-flujo-de-ramas)
-6. [🧰 Comandos Útiles de Utilidad](#-comandos-útiles-de-utilidad)
+1. [Requisitos Previos](#️-requisitos-previos)
+2. [Instalación](#-instalación)
+3. [Configuración de Firebase](#-configuración-de-firebase)
+4. [Ejecución Local](#-ejecución-local)
+5. [Estructura del Proyecto](#-estructura-del-proyecto)
+6. [Flujo de Desarrollo (Git)](#-flujo-de-desarrollo-git)
+7. [Comandos Útiles](#-comandos-útiles)
 
 ---
 
-## 🛠️ Requisitos Previos (Instalar Primero)
+## 🛠️ Requisitos Previos
 
-Antes de tocar cualquier línea de código, necesitas tener instaladas estas **3 herramientas básicas** en tu computadora:
-
-### 1. Git (Control de Versiones)
-Es el programa que te permite descargar el código y registrar tus cambios.
-*   **Descarga:** [Descargar Git para Windows/Mac/Linux](https://git-scm.com/downloads)
-*   **¿Cómo verificar si lo tengo?** Abre tu terminal (consola de comandos) y escribe:
-    ```bash
-    git --version
-    ```
-
-### 2. Node.js (Entorno de Ejecución)
-Es el motor que permite ejecutar y compilar nuestra aplicación Angular e Ionic en la máquina. Recomendamos la versión **LTS** (actualmente v20 o superior).
-*   **Descarga:** [Descargar Node.js LTS](https://nodejs.org/)
-*   **¿Cómo verificar si lo tengo?** Abre tu terminal y escribe:
-    ```bash
-    node -v
-    npm -v
-    ```
-    *(Ambos comandos deberían mostrarte números de versión, ej: `v20.x.x` y `10.x.x`)*
-
-### 3. Editor de Código (Recomendado: VS Code)
-Para escribir y editar el código cómodamente.
-*   **Descarga:** [Descargar Visual Studio Code](https://code.visualstudio.com/)
+| Herramienta | Versión mínima | Verificar |
+|---|---|---|
+| **Node.js** | v20+ | `node -v` |
+| **npm** | v10+ | `npm -v` |
+| **Git** | 2.x+ | `git --version` |
+| **Editor** | VS Code (recomendado) | — |
 
 ---
 
-## 📥 Paso 1: Descargar el Proyecto (Clonar)
+## 📥 Instalación
 
-Una vez que tengas Git instalado, es hora de traer el proyecto a tu computadora local.
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/zSnowww/BalonGo.git
 
-1. Abre la terminal de tu sistema (PowerShell en Windows, Terminal en Mac, o la integrada de VS Code).
-2. Navega a la carpeta donde quieras guardar el proyecto. Por ejemplo, en Windows:
-   ```powershell
-   cd C:\Users\TuUsuario\Documents
-   ```
-3. Ejecuta el comando para descargar (clonar) el repositorio:
-   ```bash
-   git clone <URL_DE_ESTE_REPOSITORIO>
-   ```
-   *(Reemplaza `<URL_DE_ESTE_REPOSITORIO>` con el enlace HTTPS o SSH que copiaste de GitHub)*
-4. Entra a la carpeta recién creada del proyecto:
-   ```bash
-   cd Proyecto
-   ```
-5. Abre la carpeta en Visual Studio Code. En la terminal puedes escribir:
-   ```bash
-   code .
-   ```
+# 2. Entrar al proyecto
+cd BalonGo
+
+# 3. Instalar dependencias
+npm install
+
+# 4. Abrir en VS Code
+code .
+```
 
 ---
 
-## ⚙️ Paso 2: Preparar el Entorno (Instalar dependencias)
+## 🔥 Configuración de Firebase
 
-El código descargado no incluye todas las librerías de Angular e Ionic porque son muy pesadas para guardarse en GitHub. Debemos descargarlas localmente.
+BalónGo usa **Firebase** para autenticación (Auth) y base de datos (Firestore).
+
+### Paso 1: Crear proyecto en Firebase Console
+1. Ve a [console.firebase.google.com](https://console.firebase.google.com/)
+2. Crea un proyecto o usa uno existente
+3. Habilita **Authentication** → método **Email/Password**
+4. Habilita **Cloud Firestore** en modo de prueba
+
+### Paso 2: Configurar credenciales
+Crea el archivo `src/environments/environment.ts` con tus credenciales:
+
+```typescript
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_PROYECTO.firebaseapp.com",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_PROYECTO.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdef"
+  }
+};
+```
 
 > [!IMPORTANT]
-> Asegúrate de estar dentro de la carpeta raíz del proyecto (`Proyecto`) en tu terminal antes de correr este comando.
+> El archivo `environment.ts` está en `.gitignore` por seguridad. **Nunca subas tus credenciales de Firebase a GitHub.**
 
-1. En la terminal de VS Code (abre una con `Ctrl + Shift + \`` o desde el menú `Terminal -> New Terminal`), ejecuta:
-   ```bash
-   npm install
-   ```
-2. Este comando leerá el archivo `package.json` y descargará de forma automática todas las dependencias necesarias en una carpeta llamada `node_modules`.
-
-> [!TIP]
-> **¿Da algún error de compatibilidad?** 
-> Si por alguna razón la instalación falla por conflictos de versiones de paquetes antiguos, usa el comando de fuerza segura:
-> ```bash
-> npm install --legacy-peer-deps
-> ```
+### Paso 3: Crear usuario administrador
+En Firebase Console → Authentication → Users → **Add User** con email y contraseña.
 
 ---
 
-## ⚡ Paso 3: Levantar la Web (Ejecutar en local)
+## ⚡ Ejecución Local
 
-Una vez instaladas las dependencias, ¡ya puedes ver la web en funcionamiento en tu navegador!
-
-Para levantar el servidor de desarrollo local, tienes dos comandos equivalentes excelentes:
-
-### Opción A (Recomendada con NPM estándar)
 ```bash
+# Levantar el servidor de desarrollo
 npm start
 ```
-*Este comando corre internamente `ng serve`, levantando la aplicación mediante Angular CLI.*
 
-### Opción B (Usando Ionic CLI de forma directa)
-```bash
-npx ionic serve
-```
-*Este comando utiliza el CLI de Ionic para arrancar el servidor en un puerto amigable.*
-
-### 🔍 ¿Qué pasa al ejecutar esto?
-1. La terminal compilará el código (tarda unos segundos la primera vez).
-2. Verás un mensaje que dice: `** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **`.
-3. Tu navegador web predeterminado **se abrirá automáticamente** en la dirección correspondiente (normalmente `http://localhost:4200` o `http://localhost:8100`).
-4. **¡Cualquier cambio que guardes en el código se reflejará al instante en tu navegador sin necesidad de recargar manualmente!**
+La app se abrirá en `http://localhost:4200`. Los cambios se reflejan al instante gracias al hot reload.
 
 > [!NOTE]
-> **¿Cómo apago el servidor?**
-> Para detener la ejecución del servidor local en cualquier momento, ve a la terminal donde se está ejecutando y presiona la combinación de teclas:
-> `Ctrl + C` (y luego escribe `S` o `Y` si te pregunta para confirmar y presiona `Enter`).
+> Para detener el servidor: `Ctrl + C` en la terminal.
 
 ---
 
-## 🌿 Paso 4: Cómo Desarrollar una Nueva Feature (Flujo de Ramas)
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── guards/
+│   │   └── auth.guard.ts          # Protección de rutas
+│   ├── models/
+│   │   ├── cliente.model.ts       # Interfaz de Cliente
+│   │   └── pedido.model.ts        # Interfaz de Pedido + estados
+│   ├── pages/
+│   │   ├── login/                 # Pantalla de inicio de sesión
+│   │   ├── dashboard/             # Panel principal con estadísticas
+│   │   ├── clientes/              # CRUD de clientes
+│   │   ├── pedidos/               # Gestión de pedidos
+│   │   ├── historial/             # Historial de entregas
+│   │   └── perfil/                # Perfil y configuración
+│   ├── services/
+│   │   ├── auth.service.ts        # Firebase Auth (SDK directo)
+│   │   ├── clientes.ts            # Firestore CRUD clientes
+│   │   └── pedidos.service.ts     # Firestore CRUD pedidos
+│   ├── app.component.ts
+│   └── app.routes.ts              # Rutas con lazy loading
+├── environments/
+│   └── environment.ts             # Credenciales Firebase (git-ignored)
+└── main.ts                        # Bootstrap con Firebase init
+```
+
+---
+
+## 🌿 Flujo de Desarrollo (Git)
 
 > [!WARNING]
-> **REGLA DE ORO DE GITHUB:** 
-> **NUNCA** subas cambios directamente a la rama `main` (principal). Si lo haces, podrías romper el código estable que ya funciona o causar graves conflictos con el código de tus compañeros.
-> Toda nueva funcionalidad, mejora o corrección de error debe hacerse trabajando en su propia **rama (branch)**.
-
-### 🗺️ El Flujo de Trabajo Visual
-
-El siguiente diagrama muestra el flujo correcto que debes seguir desde que decides hacer una tarea hasta que tus cambios se incorporan al proyecto final:
+> **NUNCA** subas cambios directamente a `main`. Toda nueva funcionalidad debe hacerse en su propia **rama**.
 
 ```mermaid
 gitGraph
-    commit id: "Código Estable (main)"
-    branch feature/nueva-pantalla
-    checkout feature/nueva-pantalla
-    commit id: "Hacer commit 1"
-    commit id: "Hacer commit 2"
+    commit id: "main estable"
+    branch feature/nueva-funcionalidad
+    checkout feature/nueva-funcionalidad
+    commit id: "implementar feature"
+    commit id: "tests y ajustes"
     checkout main
-    merge feature/nueva-pantalla id: "Pull Request & Merge exitoso!"
-    commit id: "Código actualizado"
+    merge feature/nueva-funcionalidad id: "PR aprobado ✓"
+    commit id: "main actualizado"
 ```
 
-### 📋 Paso a Paso para crear una Nueva Feature (Ejemplo Real)
+### Paso a paso
 
-Sigue estos **7 pasos estrictamente** cada vez que vayas a programar una nueva tarea:
-
-#### 1. Asegúrate de estar en `main` y con el código actualizado
-Antes de crear una rama, debes partir del código más reciente:
 ```bash
+# 1. Partir del código más reciente
 git checkout main
 git pull
-```
 
-#### 2. Crea tu nueva rama de trabajo
-Crea una rama con un nombre descriptivo usando el prefijo adecuado:
-*   Para nuevas funcionalidades: `feature/nombre-de-la-tarea`
-*   Para arreglar errores: `bugfix/nombre-del-error`
-*   Para refactorizar código: `refactor/que-refactorizas`
+# 2. Crear rama de trabajo
+git checkout -b feature/nombre-de-la-tarea
 
-*Ejemplo:*
-```bash
-git checkout -b feature/pantalla-login
-```
-*(El parámetro `-b` le dice a git que cree la rama y `checkout` te cambia a ella inmediatamente)*
+# 3. Programar y probar localmente con npm start
 
-#### 3. Escribe tu código y haz pruebas locales
-Programa tu feature en VS Code y comprueba en tu navegador (con `npm start`) que funciona correctamente y no tiene fallos.
-
-#### 4. Revisa tus archivos modificados
-Para ver qué archivos has cambiado o agregado, escribe:
-```bash
-git status
-```
-
-#### 5. Guarda tus cambios localmente (Commits)
-Añade los archivos que quieres guardar y crea un commit con un mensaje descriptivo en presente y español (o inglés si tu equipo lo requiere):
-```bash
-# 1. Agrega todos los archivos modificados al "carrito de compras"
+# 4. Guardar cambios
 git add .
+git commit -m "feat: descripción clara del cambio"
 
-# 2. Crea la foto/punto de restauración de tus cambios con una explicación clara
-git commit -m "feat: agrega formulario y lógica para la pantalla de login"
+# 5. Subir rama a GitHub
+git push -u origin feature/nombre-de-la-tarea
+
+# 6. Crear Pull Request en GitHub y solicitar revisión
 ```
 
-#### 6. Sube tu rama a GitHub
-Sube tu rama local para que esté disponible en la nube en GitHub:
-```bash
-git push -u origin feature/pantalla-login
-```
-*(El parámetro `-u` solo se necesita la primera vez que subes la rama, luego basta con hacer solo `git push`)*
-
-#### 7. Crea un Pull Request (PR) y solicita revisión
-1. Entra a la página de este repositorio en GitHub.
-2. Verás un cartel amarillo destacado que dice: **"Compare & pull request"**. Haz clic en él.
-3. Escribe una descripción de lo que has hecho y qué se debe probar.
-4. Asigna revisores (compañeros de equipo) si aplica.
-5. Una vez que pase la revisión y las pruebas automáticas, se podrá hacer **Merge** (combinación) con la rama `main` y tu código ya formará parte del proyecto oficial. ¡Felicidades! 🎉
+### Convención de ramas
+| Prefijo | Uso |
+|---|---|
+| `feature/` | Nuevas funcionalidades |
+| `bugfix/` | Corrección de errores |
+| `refactor/` | Mejoras de código sin cambiar funcionalidad |
 
 ---
 
-## 🧰 Comandos Útiles de Utilidad
+## 🧰 Comandos Útiles
 
-Aquí tienes una lista de comandos rápidos que te pueden ayudar en el día a día:
-
-| Comando | Propósito | ¿Cuándo usarlo? |
-|---|---|---|
-| `git status` | Ver qué archivos has modificado o están pendientes de guardar | A cada rato, para saber el estado de tu código |
-| `git branch` | Listar todas tus ramas locales e identificar en cuál estás | Para asegurarte de no estar programando en `main` |
-| `npm run lint` | Ejecuta el analizador estático de código para buscar malas prácticas | Antes de hacer un commit, para asegurarte de que tu código está impecable |
-| `npm run test` | Ejecuta las pruebas unitarias integradas con Karma | Para validar que los cambios no rompieron funcionalidades existentes |
-| `npm run build` | Compila la aplicación optimizándola para producción | Cuando se prepare la app para subirla a un servidor web real |
+| Comando | Propósito |
+|---|---|
+| `npm start` | Levantar servidor de desarrollo |
+| `npm run build` | Compilar para producción |
+| `npm run lint` | Analizar calidad de código |
+| `git status` | Ver archivos modificados |
+| `git branch` | Listar ramas locales |
 
 ---
-**¡Listo! Ya tienes todo el conocimiento necesario para dominar el desarrollo en este repositorio. Si tienes dudas, consulta a tu líder técnico o abre un Issue en GitHub. ¡Feliz programación! 🚀**
+
+## 👥 Equipo
+
+**Distribuidora Rogas S.R.L.** — Lima, Perú
+
+---
+
+**BalónGo v1.0** — Hecho con ❤️ usando Angular, Ionic y Firebase 🚀
