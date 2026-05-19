@@ -1,0 +1,74 @@
+<ion-content class="historial-content">
+  <div class="historial-wrapper">
+
+    <!-- Header -->
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Historial</h1>
+        <p>Registro de entregas completadas</p>
+      </div>
+      <div class="back-icon" routerLink="/dashboard">✕</div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-num">{{ totalEntregas }}</span>
+        <span class="stat-label">Entregas</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{ totalBalones }}</span>
+        <span class="stat-label">Balones</span>
+      </div>
+    </div>
+
+    <!-- Filtros de fecha -->
+    <div class="filtros-fecha">
+      <button class="filtro-btn" [class.active]="filtroFecha === 'hoy'"
+        (click)="setFiltroFecha('hoy')">Hoy</button>
+      <button class="filtro-btn" [class.active]="filtroFecha === 'semana'"
+        (click)="setFiltroFecha('semana')">Semana</button>
+      <button class="filtro-btn" [class.active]="filtroFecha === 'mes'"
+        (click)="setFiltroFecha('mes')">Mes</button>
+      <button class="filtro-btn" [class.active]="filtroFecha === 'todos'"
+        (click)="setFiltroFecha('todos')">Todos</button>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="search-box">
+      <div class="search-icon">🔍</div>
+      <ion-input
+        placeholder="Buscar por cliente o repartidor..."
+        type="text"
+        [(ngModel)]="busqueda"
+        (ionInput)="aplicarFiltros()">
+      </ion-input>
+    </div>
+
+    <!-- Lista de entregas -->
+    <div class="historial-list">
+
+      <div *ngIf="entregadosFiltrados.length === 0" class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>No hay entregas en este período</p>
+      </div>
+
+      <div class="entrega-card" *ngFor="let pedido of entregadosFiltrados">
+        <div class="entrega-left">
+          <div class="check-icon">✓</div>
+          <div class="entrega-info">
+            <h3>{{ pedido.clienteNombre }}</h3>
+            <p>📍 {{ pedido.clienteDireccion }}</p>
+            <p *ngIf="pedido.repartidor">🚚 {{ pedido.repartidor }}</p>
+            <p class="fecha-text">{{ formatearFecha(pedido.fecha) }}</p>
+          </div>
+        </div>
+        <div class="entrega-cantidad">
+          {{ pedido.cantidad }}
+          <span>bal.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

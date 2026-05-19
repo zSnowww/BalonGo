@@ -1,0 +1,207 @@
+.historial-content {
+  --background: #f5f7fa;
+}
+
+.historial-wrapper {
+  padding: 22px;
+  padding-bottom: 100px;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.header-text h1 {
+  color: #02162f;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.header-text p {
+  color: #6b7280;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.back-icon {
+  width: 48px;
+  height: 48px;
+  background: #032451;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(3, 36, 81, 0.25);
+  cursor: pointer;
+}
+
+/* Estadísticas */
+.stats-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  flex: 1;
+  background: linear-gradient(135deg, #032451, #1c3a67);
+  border-radius: 22px;
+  padding: 18px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 22px rgba(3, 36, 81, 0.3);
+}
+
+.stat-num {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* Filtros de fecha */
+.filtros-fecha {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filtro-btn {
+  flex: 1;
+  height: 40px;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  background: white;
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filtro-btn.active {
+  border-color: #032451;
+  background: #032451;
+  color: white;
+}
+
+/* Búsqueda */
+.search-box {
+  height: 56px;
+  background: white;
+  border-radius: 20px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.search-box ion-input {
+  --color: #02162f;
+  --placeholder-color: #9ca3af;
+  font-size: 0.92rem;
+}
+
+/* Lista */
+.historial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: #9ca3af;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+/* Tarjeta de entrega */
+.entrega-card {
+  background: white;
+  border-radius: 22px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.entrega-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+}
+
+.check-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 14px;
+  background: #d1fae5;
+  color: #065f46;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.entrega-info h3 {
+  margin: 0 0 4px;
+  color: #02162f;
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.entrega-info p {
+  margin: 2px 0;
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+.fecha-text {
+  color: #9ca3af !important;
+  font-size: 0.78rem !important;
+  margin-top: 4px !important;
+}
+
+.entrega-cantidad {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #032451;
+  min-width: 50px;
+}
+
+.entrega-cantidad span {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+}

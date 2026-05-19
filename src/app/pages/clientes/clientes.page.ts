@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonInput, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonInput, AlertController, ToastController } from '@ionic/angular/standalone';
 
 import { ClientesService } from '../../services/clientes';
 import { Cliente } from '../../models/cliente.model';
@@ -17,6 +17,7 @@ import { Cliente } from '../../models/cliente.model';
 export class ClientesPage implements OnInit {
   private clientesService = inject(ClientesService);
   private alertCtrl = inject(AlertController);
+  private toastCtrl = inject(ToastController);
 
   clientes: Cliente[] = [];
   clientesFiltrados: Cliente[] = [];
@@ -63,6 +64,16 @@ export class ClientesPage implements OnInit {
 
   async guardarCliente(): Promise<void> {
     if (!this.nuevoNombre.trim() || !this.nuevoTelefono.trim() || !this.nuevaDireccion.trim()) {
+      await this.mostrarToast('Completa todos los campos', 'warning');
+      return;
+    }
+
+    // Validar duplicado por teléfono
+    const telefonoExiste = this.clientes.find(
+      (c) => c.telefono === this.nuevoTelefono.trim() && c.id !== this.clienteEditandoId
+    );
+    if (telefonoExiste) {
+      await this.mostrarToast(`El teléfono ya pertenece a ${telefonoExiste.nombre}`, 'warning');
       return;
     }
 
@@ -75,8 +86,10 @@ export class ClientesPage implements OnInit {
 
     if (this.editando && this.clienteEditandoId) {
       await this.clientesService.actualizarCliente(this.clienteEditandoId, datos);
+      await this.mostrarToast('Cliente actualizado ✓', 'success');
     } else {
       await this.clientesService.agregarCliente(datos);
+      await this.mostrarToast('Cliente registrado ✓', 'success');
     }
 
     this.toggleFormulario();
@@ -100,10 +113,23 @@ export class ClientesPage implements OnInit {
         {
           text: 'Eliminar',
           role: 'destructive',
-          handler: () => this.clientesService.eliminarCliente(cliente.id!)
+          handler: async () => {
+            await this.clientesService.eliminarCliente(cliente.id!);
+            await this.mostrarToast('Cliente eliminado', 'danger');
+          }
         }
       ]
     });
     await alert.present();
+  }
+
+  private async mostrarToast(mensaje: string, color: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'top',
+      color
+    });
+    await toast.present();
   }
 }

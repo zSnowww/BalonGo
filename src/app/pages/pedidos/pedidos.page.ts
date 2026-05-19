@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonInput, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonInput, AlertController, ToastController } from '@ionic/angular/standalone';
 
 import { PedidosService } from '../../services/pedidos.service';
 import { ClientesService } from '../../services/clientes';
@@ -26,6 +26,7 @@ export class PedidosPage implements OnInit {
   private pedidosService = inject(PedidosService);
   private clientesService = inject(ClientesService);
   private alertCtrl = inject(AlertController);
+  private toastCtrl = inject(ToastController);
 
   pedidos: Pedido[] = [];
   pedidosFiltrados: Pedido[] = [];
@@ -40,6 +41,7 @@ export class PedidosPage implements OnInit {
   clienteSeleccionadoId = '';
   cantidad = 1;
   notas = '';
+  repartidor = '';
 
   ngOnInit(): void {
     this.pedidosService.obtenerPedidos().subscribe((pedidos) => {
@@ -72,12 +74,14 @@ export class PedidosPage implements OnInit {
     this.clienteSeleccionadoId = '';
     this.cantidad = 1;
     this.notas = '';
+    this.repartidor = '';
     this.editando = false;
     this.pedidoEditandoId = null;
   }
 
   async guardarPedido(): Promise<void> {
     if (!this.clienteSeleccionadoId || this.cantidad < 1) {
+      await this.mostrarToast('Selecciona un cliente y cantidad', 'warning');
       return;
     }
 
@@ -90,13 +94,16 @@ export class PedidosPage implements OnInit {
       clienteTelefono: cliente.telefono,
       clienteDireccion: cliente.direccion,
       cantidad: this.cantidad,
-      notas: this.notas
+      notas: this.notas,
+      repartidor: this.repartidor.trim() || undefined
     };
 
     if (this.editando && this.pedidoEditandoId) {
       await this.pedidosService.actualizarPedido(this.pedidoEditandoId, datosPedido);
+      await this.mostrarToast('Pedido actualizado ✓', 'success');
     } else {
       await this.pedidosService.crearPedido(datosPedido);
+      await this.mostrarToast('Pedido creado ✓', 'success');
     }
 
     this.toggleFormulario();
@@ -106,6 +113,7 @@ export class PedidosPage implements OnInit {
     this.clienteSeleccionadoId = pedido.clienteId;
     this.cantidad = pedido.cantidad;
     this.notas = pedido.notas ?? '';
+    this.repartidor = pedido.repartidor ?? '';
     this.editando = true;
     this.pedidoEditandoId = pedido.id!;
     this.mostrarFormulario = true;
@@ -120,6 +128,8 @@ export class PedidosPage implements OnInit {
     const nuevoEstado = siguiente[pedido.estado];
     if (nuevoEstado) {
       await this.pedidosService.actualizarEstado(pedido.id!, nuevoEstado);
+      const msg = nuevoEstado === 'en-proceso' ? 'Pedido en reparto 🚚' : 'Pedido entregado ✓';
+      await this.mostrarToast(msg, nuevoEstado === 'entregado' ? 'success' : 'primary');
     }
   }
 
@@ -132,7 +142,10 @@ export class PedidosPage implements OnInit {
         {
           text: 'Eliminar',
           role: 'destructive',
-          handler: () => this.pedidosService.eliminarPedido(pedido.id!)
+          handler: async () => {
+            await this.pedidosService.eliminarPedido(pedido.id!);
+            await this.mostrarToast('Pedido eliminado', 'danger');
+          }
         }
       ]
     });
@@ -168,5 +181,15 @@ export class PedidosPage implements OnInit {
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  }
+
+  private async mostrarToast(mensaje: string, color: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'top',
+      color
+    });
+    await toast.present();
   }
 }

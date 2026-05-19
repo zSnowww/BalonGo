@@ -10,4 +10,5 @@ export interface Pedido {
   estado: EstadoPedido;
   fecha: Date | any;
   notas?: string;
+  repartidor?: string;
 }

@@ -31,6 +31,12 @@ export const routes: Routes = [
       import('./pages/pedidos/pedidos.page').then((m) => m.PedidosPage),
   },
   {
+    path: 'historial',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/historial/historial.page').then((m) => m.HistorialPage),
+  },
+  {
     path: 'perfil',
     canActivate: [authGuard],
     loadComponent: () =>

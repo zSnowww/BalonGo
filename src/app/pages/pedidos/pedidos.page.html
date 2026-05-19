@@ -52,6 +52,7 @@
             <h2>{{ pedido.clienteNombre }}</h2>
             <p>📍 {{ pedido.clienteDireccion }}</p>
             <p>📞 {{ pedido.clienteTelefono }}</p>
+            <p *ngIf="pedido.repartidor">🚚 {{ pedido.repartidor }}</p>
           </div>
           <div class="estado-badge" [ngClass]="pedido.estado">
             {{ etiquetaEstado(pedido.estado) }}
@@ -104,6 +105,13 @@
           type="text"
           placeholder="Instrucciones de entrega..."
           [(ngModel)]="notas">
+        </ion-input>
+
+        <label class="field-label">Repartidor (opcional)</label>
+        <ion-input
+          type="text"
+          placeholder="Nombre del repartidor..."
+          [(ngModel)]="repartidor">
         </ion-input>
 
         <div class="modal-buttons">
