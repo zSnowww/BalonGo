@@ -1,0 +1,384 @@
+.pedidos-content {
+  --background: #f5f7fa;
+}
+
+.pedidos-wrapper {
+  padding: 22px;
+  padding-bottom: 100px;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.header-text h1 {
+  color: #02162f;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.header-text p {
+  color: #6b7280;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.back-icon {
+  width: 48px;
+  height: 48px;
+  background: #032451;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(3, 36, 81, 0.25);
+  cursor: pointer;
+}
+
+/* === Resumen de estados === */
+.stats-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat-pill {
+  flex: 1;
+  background: white;
+  border-radius: 18px;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.stat-pill.active {
+  border-color: #032451;
+  color: #032451;
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #02162f;
+  margin-bottom: 4px;
+}
+
+.stat-pill.pendiente .stat-num { color: #f59e0b; }
+.stat-pill.en-proceso .stat-num { color: #3b82f6; }
+.stat-pill.entregado .stat-num { color: #10b981; }
+
+.filter-all {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin-bottom: 22px;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.filter-all.active {
+  background: #e8edf4;
+  color: #032451;
+}
+
+/* === Lista === */
+.pedidos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: #9ca3af;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+/* === Tarjeta de pedido === */
+.pedido-card {
+  background: white;
+  border-radius: 28px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.pedido-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.pedido-avatar {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #032451, #1c3a67);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.pedido-info {
+  flex: 1;
+}
+
+.pedido-info h2 {
+  margin: 0 0 4px;
+  color: #02162f;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.pedido-info p {
+  margin: 2px 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* Estado badge */
+.estado-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.estado-badge.pendiente {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.estado-badge.en-proceso {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.estado-badge.entregado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Detalle del pedido */
+.pedido-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.balones {
+  font-weight: 700;
+  color: #02162f;
+  font-size: 0.92rem;
+}
+
+.notas {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* Acciones */
+.pedido-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: rgba(3, 36, 81, 0.1);
+  color: #032451;
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.avanzar-btn {
+  flex: 1;
+  height: 42px;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.avanzar-btn.pendiente {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #1a1a1a;
+}
+
+.avanzar-btn.en-proceso {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: white;
+}
+
+.avanzar-btn.entregado {
+  background: #d1fae5;
+  color: #065f46;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.avanzar-btn:disabled {
+  opacity: 0.6;
+}
+
+/* FAB */
+.fab-button {
+  position: fixed;
+  right: 24px;
+  bottom: 28px;
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #032451, #1c3a67);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 12px 28px rgba(3, 36, 81, 0.3);
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 999;
+}
+
+.modal-form {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.modal-form h2 {
+  margin-top: 0;
+  margin-bottom: 22px;
+  color: #02162f;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+
+.select-field {
+  width: 100%;
+  height: 56px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 0 14px;
+  color: #02162f;
+  font-size: 0.95rem;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.modal-form ion-input {
+  height: 56px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 0 14px;
+  --color: #02162f;
+  --placeholder-color: #9ca3af;
+  margin-bottom: 0;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.cancel-btn,
+.add-btn {
+  flex: 1;
+  height: 52px;
+  border: none;
+  border-radius: 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #eef2f7;
+  color: #02162f;
+}
+
+.add-btn {
+  background: linear-gradient(135deg, #032451, #1c3a67);
+  color: white;
+}

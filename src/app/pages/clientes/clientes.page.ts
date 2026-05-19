@@ -1,99 +1,135 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { IonContent, IonInput, AlertController, ToastController } from '@ionic/angular/standalone';
 
-import {
-  IonContent,
-  IonInput
-} from '@ionic/angular/standalone';
-
-import { ClientesService }
-from '../../services/clientes';
+import { ClientesService } from '../../services/clientes';
+import { Cliente } from '../../models/cliente.model';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterLink,
-    IonContent,
-    IonInput
-  ]
+  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonInput]
 })
+export class ClientesPage implements OnInit {
+  private clientesService = inject(ClientesService);
+  private alertCtrl = inject(AlertController);
+  private toastCtrl = inject(ToastController);
 
-export class ClientesPage {
-  clientes: any[] = [];
+  clientes: Cliente[] = [];
+  clientesFiltrados: Cliente[] = [];
+  busqueda = '';
   mostrarFormulario = false;
+  editando = false;
+  clienteEditandoId: string | null = null;
+
   nuevoNombre = '';
   nuevoTelefono = '';
-  editando = false;
-  indiceEditando: number | null = null;
-  constructor(
-    private clientesService:
-    ClientesService
-  ) {
-    this.clientes =
-      this.clientesService
-        .obtenerClientes();
+  nuevaDireccion = '';
+
+  ngOnInit(): void {
+    this.clientesService.obtenerClientes().subscribe((clientes) => {
+      this.clientes = clientes;
+      this.aplicarBusqueda();
+    });
   }
 
-  toggleFormulario() {
-    this.mostrarFormulario =
-      !this.mostrarFormulario;
+  aplicarBusqueda(): void {
+    const termino = this.busqueda.toLowerCase();
+    this.clientesFiltrados = this.clientes.filter(
+      (c) =>
+        c.nombre.toLowerCase().includes(termino) ||
+        c.telefono.includes(termino) ||
+        c.direccion.toLowerCase().includes(termino)
+    );
+  }
+
+  toggleFormulario(): void {
+    this.mostrarFormulario = !this.mostrarFormulario;
     if (!this.mostrarFormulario) {
-      this.nuevoNombre = '';
-      this.nuevoTelefono = '';
-      this.editando = false;
-      this.indiceEditando = null;
+      this.resetFormulario();
     }
   }
 
-  guardarCliente() {
-    if (
-      this.nuevoNombre.trim() === '' ||
-      this.nuevoTelefono.trim() === ''
-    ) {
-      return;
-    }
-    if (this.editando && this.indiceEditando !== null) {
-      const iniciales =
-        this.nuevoNombre
-          .split(' ')
-          .map(p => p[0])
-          .join('')
-          .toUpperCase();
-      this.clientes[this.indiceEditando] = {
-        nombre: this.nuevoNombre,
-        telefono: this.nuevoTelefono,
-        iniciales
-      };
-    } else {
-      this.clientesService.agregarCliente(
-        this.nuevoNombre,
-        this.nuevoTelefono
-      );
-    }
+  resetFormulario(): void {
     this.nuevoNombre = '';
     this.nuevoTelefono = '';
+    this.nuevaDireccion = '';
     this.editando = false;
-    this.indiceEditando = null;
-    this.mostrarFormulario = false;
+    this.clienteEditandoId = null;
   }
 
-  editarCliente(index: number) {
-    const cliente = this.clientes[index];
+  async guardarCliente(): Promise<void> {
+    if (!this.nuevoNombre.trim() || !this.nuevoTelefono.trim() || !this.nuevaDireccion.trim()) {
+      await this.mostrarToast('Completa todos los campos', 'warning');
+      return;
+    }
+
+    // Validar duplicado por teléfono
+    const telefonoExiste = this.clientes.find(
+      (c) => c.telefono === this.nuevoTelefono.trim() && c.id !== this.clienteEditandoId
+    );
+    if (telefonoExiste) {
+      await this.mostrarToast(`El teléfono ya pertenece a ${telefonoExiste.nombre}`, 'warning');
+      return;
+    }
+
+    const datos = {
+      nombre: this.nuevoNombre.trim(),
+      telefono: this.nuevoTelefono.trim(),
+      direccion: this.nuevaDireccion.trim(),
+      iniciales: ''
+    };
+
+    if (this.editando && this.clienteEditandoId) {
+      await this.clientesService.actualizarCliente(this.clienteEditandoId, datos);
+      await this.mostrarToast('Cliente actualizado ✓', 'success');
+    } else {
+      await this.clientesService.agregarCliente(datos);
+      await this.mostrarToast('Cliente registrado ✓', 'success');
+    }
+
+    this.toggleFormulario();
+  }
+
+  editarCliente(cliente: Cliente): void {
     this.nuevoNombre = cliente.nombre;
     this.nuevoTelefono = cliente.telefono;
+    this.nuevaDireccion = cliente.direccion;
     this.editando = true;
-    this.indiceEditando = index;
+    this.clienteEditandoId = cliente.id!;
     this.mostrarFormulario = true;
   }
 
-  eliminarCliente(index: number) {
-    this.clientes.splice(index, 1);
+  async confirmarEliminar(cliente: Cliente): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Eliminar cliente',
+      message: `¿Eliminar a ${cliente.nombre}? Esta acción no se puede deshacer.`,
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            await this.clientesService.eliminarCliente(cliente.id!);
+            await this.mostrarToast('Cliente eliminado', 'danger');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  private async mostrarToast(mensaje: string, color: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'top',
+      color
+    });
+    await toast.present();
   }
 }

@@ -1,46 +1,65 @@
 import { Injectable } from '@angular/core';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp
+} from 'firebase/firestore';
+import { Observable } from 'rxjs';
+import { Cliente } from '../models/cliente.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class ClientesService {
+  private db = getFirestore();
 
-  clientes = [
-    {
-      nombre: 'Ana Torres',
-      telefono: '987 654 321',
-      iniciales: 'AT'
-    },
-    {
-      nombre: 'Juan Pérez',
-      telefono: '912 345 678',
-      iniciales: 'JP'
-    },
-    {
-      nombre: 'María López',
-      telefono: '965 741 258',
-      iniciales: 'ML'
-    }
-  ];
-  obtenerClientes() {
-    return this.clientes;
+  /** Observable en tiempo real de todos los clientes */
+  obtenerClientes(): Observable<Cliente[]> {
+    return new Observable((subscriber) => {
+      const ref = collection(this.db, 'clientes');
+      const unsub = onSnapshot(
+        ref,
+        (snapshot) => {
+          const clientes = snapshot.docs.map((d) => ({
+            id: d.id,
+            ...(d.data() as Omit<Cliente, 'id'>)
+          }));
+          subscriber.next(clientes);
+        },
+        (error) => subscriber.error(error)
+      );
+      return unsub; // se llama automáticamente al unsubscribe
+    });
   }
-  agregarCliente(
-    nombre: string,
-    telefono: string
-  ) 
-  {
-    const iniciales =
-      nombre
+
+  async agregarCliente(cliente: Omit<Cliente, 'id'>): Promise<void> {
+    const iniciales = cliente.nombre
+      .split(' ')
+      .map((p) => p[0])
+      .join('')
+      .toUpperCase();
+    await addDoc(collection(this.db, 'clientes'), {
+      ...cliente,
+      iniciales,
+      creadoEn: serverTimestamp()
+    });
+  }
+
+  async actualizarCliente(id: string, datos: Partial<Cliente>): Promise<void> {
+    if (datos.nombre) {
+      datos.iniciales = datos.nombre
         .split(' ')
-        .map(p => p[0])
+        .map((p) => p[0])
         .join('')
         .toUpperCase();
-    this.clientes.push({
-      nombre,
-      telefono,
-      iniciales
-    });
+    }
+    await updateDoc(doc(this.db, 'clientes', id), { ...datos });
+  }
+
+  async eliminarCliente(id: string): Promise<void> {
+    await deleteDoc(doc(this.db, 'clientes', id));
   }
 }

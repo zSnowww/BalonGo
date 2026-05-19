@@ -1,0 +1,127 @@
+<ion-content class="pedidos-content">
+  <div class="pedidos-wrapper">
+
+    <!-- Header -->
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Pedidos</h1>
+        <p>Gestión de pedidos en tiempo real</p>
+      </div>
+      <div class="back-icon" routerLink="/dashboard">✕</div>
+    </div>
+
+    <!-- Resumen de estados -->
+    <div class="stats-row">
+      <div class="stat-pill pendiente" (click)="aplicarFiltro('pendiente')"
+        [class.active]="filtroActivo === 'pendiente'">
+        <span class="stat-num">{{ contarPorEstado('pendiente') }}</span>
+        <span>Pendientes</span>
+      </div>
+      <div class="stat-pill en-proceso" (click)="aplicarFiltro('en-proceso')"
+        [class.active]="filtroActivo === 'en-proceso'">
+        <span class="stat-num">{{ contarPorEstado('en-proceso') }}</span>
+        <span>En proceso</span>
+      </div>
+      <div class="stat-pill entregado" (click)="aplicarFiltro('entregado')"
+        [class.active]="filtroActivo === 'entregado'">
+        <span class="stat-num">{{ contarPorEstado('entregado') }}</span>
+        <span>Entregados</span>
+      </div>
+    </div>
+
+    <!-- Filtro "todos" -->
+    <div class="filter-all" (click)="aplicarFiltro('todos')"
+      [class.active]="filtroActivo === 'todos'">
+      Ver todos los pedidos
+    </div>
+
+    <!-- Lista de pedidos -->
+    <div class="pedidos-list">
+
+      <div *ngIf="pedidosFiltrados.length === 0" class="empty-state">
+        <div class="empty-icon">📦</div>
+        <p>No hay pedidos en este estado</p>
+      </div>
+
+      <div class="pedido-card" *ngFor="let pedido of pedidosFiltrados">
+        <div class="pedido-header">
+          <div class="pedido-avatar">
+          {{ obtenerIniciales(pedido.clienteNombre) }}
+          </div>
+          <div class="pedido-info">
+            <h2>{{ pedido.clienteNombre }}</h2>
+            <p>📍 {{ pedido.clienteDireccion }}</p>
+            <p>📞 {{ pedido.clienteTelefono }}</p>
+            <p *ngIf="pedido.repartidor">🚚 {{ pedido.repartidor }}</p>
+          </div>
+          <div class="estado-badge" [ngClass]="pedido.estado">
+            {{ etiquetaEstado(pedido.estado) }}
+          </div>
+        </div>
+
+        <div class="pedido-detail">
+          <span class="balones">🔵 {{ pedido.cantidad }} balón{{ pedido.cantidad !== 1 ? 'es' : '' }}</span>
+          <span *ngIf="pedido.notas" class="notas">📝 {{ pedido.notas }}</span>
+        </div>
+
+        <div class="pedido-actions">
+          <button class="edit-btn" (click)="editarPedido(pedido)">✏️</button>
+          <button class="delete-btn" (click)="confirmarEliminar(pedido)">🗑️</button>
+          <button class="avanzar-btn" [ngClass]="pedido.estado"
+            (click)="avanzarEstado(pedido)"
+            [disabled]="pedido.estado === 'entregado'">
+            {{ etiquetaAvance(pedido.estado) }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAB nuevo pedido -->
+    <div class="fab-button" (click)="toggleFormulario()">+</div>
+
+    <!-- Modal formulario -->
+    <div class="modal-overlay" *ngIf="mostrarFormulario">
+      <div class="modal-form">
+        <h2>{{ editando ? 'Editar Pedido' : 'Nuevo Pedido' }}</h2>
+
+        <label class="field-label">Cliente</label>
+        <select class="select-field" [(ngModel)]="clienteSeleccionadoId">
+          <option value="" disabled>Seleccionar cliente...</option>
+          <option *ngFor="let c of clientes" [value]="c.id">
+            {{ c.nombre }} — {{ c.direccion }}
+          </option>
+        </select>
+
+        <label class="field-label">Cantidad de balones</label>
+        <ion-input
+          type="number"
+          placeholder="Ej: 2"
+          [(ngModel)]="cantidad"
+          min="1">
+        </ion-input>
+
+        <label class="field-label">Notas (opcional)</label>
+        <ion-input
+          type="text"
+          placeholder="Instrucciones de entrega..."
+          [(ngModel)]="notas">
+        </ion-input>
+
+        <label class="field-label">Repartidor (opcional)</label>
+        <ion-input
+          type="text"
+          placeholder="Nombre del repartidor..."
+          [(ngModel)]="repartidor">
+        </ion-input>
+
+        <div class="modal-buttons">
+          <button class="cancel-btn" (click)="toggleFormulario()">Cancelar</button>
+          <button class="add-btn" (click)="guardarPedido()">
+            {{ editando ? 'Guardar' : 'Crear pedido' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

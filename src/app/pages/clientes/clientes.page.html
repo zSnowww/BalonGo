@@ -17,13 +17,15 @@
       </div>
       <ion-input
         placeholder="Buscar cliente..."
-        type="text">
+        type="text"
+        [(ngModel)]="busqueda"
+        (ionInput)="aplicarBusqueda()">
       </ion-input>
     </div>
     <div class="clientes-list">
       <div
         class="cliente-card"
-        *ngFor="let cliente of clientes; let i = index">
+        *ngFor="let cliente of clientesFiltrados">
         <div class="cliente-left">
           <div class="avatar">
             {{ cliente.iniciales }}
@@ -40,12 +42,12 @@
         <div class="cliente-actions">
           <button
             class="edit-btn"
-            (click)="editarCliente(i)">
+            (click)="editarCliente(cliente)">
             ✏️
           </button>
           <button
             class="delete-btn"
-            (click)="eliminarCliente(i)">
+            (click)="confirmarEliminar(cliente)">
             🗑️
           </button>
         </div>
@@ -64,12 +66,17 @@
           {{ editando ? 'Editar Cliente' : 'Nuevo Cliente' }}
         </h2>
         <ion-input
-          placeholder="Nombre"
+          placeholder="Nombre completo"
           [(ngModel)]="nuevoNombre">
         </ion-input>
         <ion-input
           placeholder="Teléfono"
+          type="tel"
           [(ngModel)]="nuevoTelefono">
+        </ion-input>
+        <ion-input
+          placeholder="Dirección de entrega"
+          [(ngModel)]="nuevaDireccion">
         </ion-input>
         <div class="modal-buttons">
           <button

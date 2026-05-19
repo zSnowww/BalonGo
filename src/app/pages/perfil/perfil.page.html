@@ -1,63 +1,77 @@
 <ion-content class="perfil-content">
   <div class="perfil-wrapper">
+
+    <!-- Header -->
     <div class="top-header">
       <div class="header-text">
         <h1>Mi Perfil</h1>
-        <p>Información del administrador</p>
+        <p>Configuración de cuenta</p>
       </div>
-      <div
-        class="back-icon"
-        routerLink="/dashboard">
-        ✕
+      <div class="back-icon" routerLink="/dashboard">✕</div>
+    </div>
+
+    <!-- Avatar y correo -->
+    <div class="perfil-card">
+      <div class="avatar">
+        {{ correo.charAt(0).toUpperCase() }}
+      </div>
+      <h2>{{ correo }}</h2>
+      <p class="rol-badge">Administrador</p>
+    </div>
+
+    <!-- Estadísticas del usuario -->
+    <div class="perfil-stats">
+      <div class="pstat">
+        <span class="pstat-num">{{ totalClientes }}</span>
+        <span class="pstat-label">Clientes</span>
+      </div>
+      <div class="pstat">
+        <span class="pstat-num">{{ totalPedidos }}</span>
+        <span class="pstat-label">Pedidos</span>
+      </div>
+      <div class="pstat">
+        <span class="pstat-num">{{ totalEntregados }}</span>
+        <span class="pstat-label">Entregados</span>
       </div>
     </div>
-    <div class="profile-card">
-      <div class="profile-banner"></div>
-      <div class="profile-avatar">
-        <img
-          src="assets/img/Gastonsillo.png"
-          alt="Perfil">
+
+    <!-- Opciones -->
+    <div class="opciones-list">
+      <div class="opcion-item" (click)="cambiarContrasena()">
+        <div class="opcion-left">
+          <div class="opcion-icon cambiar-icon">🔒</div>
+          <div>
+            <h3>Cambiar contraseña</h3>
+            <p>Actualiza tu contraseña de acceso</p>
+          </div>
+        </div>
+        <span class="arrow">›</span>
       </div>
-      <div class="profile-info-main">
-        <h2>{{ perfil.nombre }}</h2>
-        <p class="role">
-          {{ perfil.rol }}
-        </p>
+
+      <div class="opcion-item historial" routerLink="/historial">
+        <div class="opcion-left">
+          <div class="opcion-icon historial-icon">📋</div>
+          <div>
+            <h3>Historial de entregas</h3>
+            <p>Ver registro de entregas completadas</p>
+          </div>
+        </div>
+        <span class="arrow">›</span>
       </div>
-      <div class="info-list">
-        <div class="info-card">
-          <div class="info-icon email">
-            ✉️
-          </div>
-          <div class="info-text">
-            <span>Correo</span>
-            <h3>{{ perfil.correo }}</h3>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon phone">
-            📞
-          </div>
-          <div class="info-text">
-            <span>Teléfono</span>
-            <h3>{{ perfil.telefono }}</h3>
+
+      <div class="opcion-item cerrar" (click)="cerrarSesion()">
+        <div class="opcion-left">
+          <div class="opcion-icon cerrar-icon">🚪</div>
+          <div>
+            <h3>Cerrar sesión</h3>
+            <p>Salir de BalónGo</p>
           </div>
         </div>
-        <div class="info-card">
-          <div class="info-icon location">
-            📍
-          </div>
-          <div class="info-text">
-            <span>Ubicación</span>
-            <h3>{{ perfil.direccion }}</h3>
-          </div>
-        </div>
+        <span class="arrow">›</span>
       </div>
     </div>
-    <button
-      class="logout-btn"
-      routerLink="/login">
-      Cerrar Sesión
-    </button>
+
+    <div class="version-text">BalónGo v1.0 — Distribuidora Rogas S.R.L.</div>
+
   </div>
 </ion-content>

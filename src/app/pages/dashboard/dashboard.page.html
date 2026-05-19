@@ -2,87 +2,63 @@
   <div class="dashboard-wrapper">
     <div class="top-header">
       <div class="header-text">
-        <h1>Hola, Usuario</h1>
-        <p>
-          Este es el resumen de tu actividad de hoy.
-        </p>
+        <h1>Hola, {{ nombreUsuario }}</h1>
+        <p>Resumen de actividad de hoy</p>
       </div>
-      <div
-        class="logout-icon"
-        routerLink="/login">
-        ⎋
-      </div>
+      <div class="logout-icon" routerLink="/login" (click)="cerrarSesion()">⎋</div>
     </div>
+
+    <!-- Tarjetas de estadísticas reales -->
     <div class="stats-grid">
-      <div class="stat-card clientes-card"
-        routerLink="/clientes">
-        <div class="stat-icon clientes-icon">
-          👥
-        </div>
-        <h2>Clientes</h2>
-        <p>
-          Administrar registros y datos
-        </p>
+      <div class="stat-card clientes-card" routerLink="/clientes">
+        <div class="stat-icon clientes-icon">👥</div>
+        <h2>{{ totalClientes }}</h2>
+        <p>Clientes</p>
       </div>
-      <div class="stat-card productos-card"
-        routerLink="/productos">
-        <div class="stat-icon productos-icon">
-          📦
-        </div>
-        <h2>Productos</h2>
-        <p>
-          Control de stock y productos
-        </p>
+      <div class="stat-card pedidos-card" routerLink="/pedidos">
+        <div class="stat-icon pedidos-icon">📋</div>
+        <h2>{{ pendientes }}</h2>
+        <p>Pendientes</p>
       </div>
-      <div class="stat-card perfil-card"
-        routerLink="/perfil">
-        <div class="stat-icon perfil-icon">
-          👤
-        </div>
-        <h2>Perfil</h2>
-        <p>
-          Información del usuario
-        </p>
+      <div class="stat-card proceso-card" routerLink="/pedidos">
+        <div class="stat-icon proceso-icon">🚚</div>
+        <h2>{{ enProceso }}</h2>
+        <p>En reparto</p>
+      </div>
+      <div class="stat-card perfil-card" routerLink="/historial">
+        <div class="stat-icon perfil-icon">📊</div>
+        <h2>{{ entregados }}</h2>
+        <p>Entregados</p>
       </div>
     </div>
-    <div class="section-title">
-      Actividad Reciente
+
+    <div class="historial-link" routerLink="/historial">
+      📋 Ver historial completo de entregas →
     </div>
+
+    <div class="section-title">Últimos pedidos</div>
+
     <div class="activity-container">
-      <div class="activity-card">
-        <div class="activity-left">
-          <div class="activity-icon success">
-            ✓
-          </div>
-          <div class="activity-info">
-            <h3>Pedido completado</h3>
-            <p>Hace 2 horas</p>
-          </div>
-        </div>
-        <span>$45.00</span>
+      <div *ngIf="ultimosPedidos.length === 0" class="no-activity">
+        Sin actividad reciente
       </div>
-      <div class="activity-card">
+      <div class="activity-card" *ngFor="let pedido of ultimosPedidos">
         <div class="activity-left">
-          <div class="activity-icon warning">
-            !
+          <div class="activity-icon"
+            [ngClass]="{
+              'success': pedido.estado === 'entregado',
+              'warning': pedido.estado === 'en-proceso',
+              'primary': pedido.estado === 'pendiente'
+            }">
+            {{ pedido.estado === 'entregado' ? '✓' : pedido.estado === 'en-proceso' ? '🚚' : '⏳' }}
           </div>
           <div class="activity-info">
-            <h3>Revisión de stock</h3>
-            <p>Hace 5 horas</p>
-          </div>
-        </div>
-      </div>
-      <div class="activity-card">
-        <div class="activity-left">
-          <div class="activity-icon primary">
-            +
-          </div>
-          <div class="activity-info">
-            <h3>Nuevo cliente</h3>
-            <p>Hace 1 día</p>
+            <h3>{{ pedido.clienteNombre }}</h3>
+            <p>{{ pedido.cantidad }} balón{{ pedido.cantidad !== 1 ? 'es' : '' }} — {{ pedido.estado }}</p>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </ion-content>
