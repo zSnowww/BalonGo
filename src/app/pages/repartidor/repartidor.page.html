@@ -69,9 +69,6 @@
       <button class="ev-btn pago" (click)="seleccionarImagen('pago')" [disabled]="subiendo">
         💳 Foto de pago
       </button>
-      <button class="ev-btn firma" (click)="seleccionarImagen('firma')" [disabled]="subiendo">
-        ✍️ Firma
-      </button>
       <button class="ev-btn otro" (click)="seleccionarImagen('otro')" [disabled]="subiendo">
         📎 Otro
       </button>
@@ -82,8 +79,6 @@
       (change)="onFileSelected($event, 'entrega')" />
     <input id="file-input-pago" type="file" accept="image/*" style="display:none"
       (change)="onFileSelected($event, 'pago')" />
-    <input id="file-input-firma" type="file" accept="image/*" style="display:none"
-      (change)="onFileSelected($event, 'firma')" />
     <input id="file-input-otro" type="file" accept="image/*" style="display:none"
       (change)="onFileSelected($event, 'otro')" />
 

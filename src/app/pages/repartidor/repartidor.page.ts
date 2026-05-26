@@ -132,7 +132,7 @@ export class RepartidorPage implements OnInit {
   }
 
   etiquetaTipo(tipo: Evidencia['tipo']): string {
-    const t = { 'entrega': 'Foto de entrega', 'pago': 'Foto de pago', 'firma': 'Firma', 'otro': 'Otro' };
+    const t = { 'entrega': 'Foto de entrega', 'pago': 'Foto de pago', 'otro': 'Otro' };
     return t[tipo];
   }
 

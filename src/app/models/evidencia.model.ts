@@ -1,5 +1,5 @@
 export interface Evidencia {
-  tipo: 'entrega' | 'pago' | 'firma' | 'otro';
+  tipo: 'entrega' | 'pago' | 'otro';
   url: string;
   nota?: string;
   fecha: Date | any;
