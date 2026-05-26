@@ -2,19 +2,19 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonInput, ToastController, AlertController } from '@ionic/angular/standalone';
-
+import { IonContent, ToastController, AlertController } from '@ionic/angular/standalone';
 import { AuthService } from '../../services/auth.service';
 import { PedidosService } from '../../services/pedidos.service';
 import { ClientesService } from '../../services/clientes';
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, IonContent]
+  imports: [CommonModule, FormsModule, RouterLink, IonContent, NavBarComponent]
 })
 export class PerfilPage implements OnInit {
   private authService = inject(AuthService);
@@ -27,6 +27,10 @@ export class PerfilPage implements OnInit {
   totalClientes = 0;
   totalPedidos = 0;
   totalEntregados = 0;
+
+  get iniciales(): string {
+    return (this.correo || 'A').slice(0, 2).toUpperCase();
+  }
 
   ngOnInit(): void {
     const user = this.authService.currentUser;

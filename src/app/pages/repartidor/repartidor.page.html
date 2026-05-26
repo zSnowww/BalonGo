@@ -1,0 +1,117 @@
+<ion-content class="rep-content">
+
+  <!-- Lista de pedidos asignados -->
+  <div class="rep-wrapper" *ngIf="!pedidoSeleccionado">
+    <div class="rep-header">
+      <div>
+        <p class="rep-saludo">Hola,</p>
+        <h1>{{ nombreRepartidor }}</h1>
+      </div>
+      <button class="logout-btn" (click)="cerrarSesion()">Salir</button>
+    </div>
+
+    <div class="section-title">Mis pedidos asignados</div>
+
+    <div *ngIf="pedidos.length === 0" class="empty-state">
+      <div class="empty-icon">🎉</div>
+      <p>No tienes pedidos pendientes</p>
+    </div>
+
+    <div class="pedido-card" *ngFor="let p of pedidos" (click)="abrirPedido(p)">
+      <div class="card-top">
+        <div class="card-avatar">{{ p.clienteNombre.slice(0,2).toUpperCase() }}</div>
+        <div class="card-info">
+          <h3>{{ p.clienteNombre }}</h3>
+          <p>📍 {{ p.clienteDireccion }}</p>
+          <p>📞 {{ p.clienteTelefono }}</p>
+        </div>
+        <div class="estado-chip" [ngClass]="p.estado">
+          {{ p.estado === 'en-proceso' ? 'Reparto' : 'Pendiente' }}
+        </div>
+      </div>
+      <div class="card-bottom">
+        <span>{{ p.productoNombre }}</span>
+        <span class="separator">·</span>
+        <span>{{ p.cantidad }} u.</span>
+        <span class="separator">·</span>
+        <span class="price">S/ {{ p.total }}</span>
+      </div>
+      <div class="card-cta">Ver detalle y subir evidencias →</div>
+    </div>
+  </div>
+
+  <!-- Detalle de pedido + evidencias -->
+  <div class="rep-detail" *ngIf="pedidoSeleccionado">
+    <div class="detail-header">
+      <button class="back-btn" (click)="cerrarPedido()">← Volver</button>
+      <h2>Detalle del pedido</h2>
+    </div>
+
+    <div class="client-card">
+      <div class="client-avatar">{{ pedidoSeleccionado.clienteNombre.slice(0,2).toUpperCase() }}</div>
+      <div>
+        <h3>{{ pedidoSeleccionado.clienteNombre }}</h3>
+        <p>📞 {{ pedidoSeleccionado.clienteTelefono }}</p>
+        <p>📍 {{ pedidoSeleccionado.clienteDireccion }}</p>
+        <p>📦 {{ pedidoSeleccionado.productoNombre }} · {{ pedidoSeleccionado.cantidad }} u.</p>
+        <p class="total-p">S/ {{ pedidoSeleccionado.total }}</p>
+        <p *ngIf="pedidoSeleccionado.notas">📝 {{ pedidoSeleccionado.notas }}</p>
+      </div>
+    </div>
+
+    <!-- Subir evidencias -->
+    <div class="ev-section-title">Subir evidencias</div>
+
+    <div class="ev-buttons">
+      <button class="ev-btn entrega" (click)="seleccionarImagen('entrega')" [disabled]="subiendo">
+        📷 Foto de entrega
+      </button>
+      <button class="ev-btn pago" (click)="seleccionarImagen('pago')" [disabled]="subiendo">
+        💳 Foto de pago
+      </button>
+      <button class="ev-btn firma" (click)="seleccionarImagen('firma')" [disabled]="subiendo">
+        ✍️ Firma
+      </button>
+      <button class="ev-btn otro" (click)="seleccionarImagen('otro')" [disabled]="subiendo">
+        📎 Otro
+      </button>
+    </div>
+
+    <!-- Inputs de archivo ocultos por tipo -->
+    <input id="file-input-entrega" type="file" accept="image/*" style="display:none"
+      (change)="onFileSelected($event, 'entrega')" />
+    <input id="file-input-pago" type="file" accept="image/*" style="display:none"
+      (change)="onFileSelected($event, 'pago')" />
+    <input id="file-input-firma" type="file" accept="image/*" style="display:none"
+      (change)="onFileSelected($event, 'firma')" />
+    <input id="file-input-otro" type="file" accept="image/*" style="display:none"
+      (change)="onFileSelected($event, 'otro')" />
+
+    <div *ngIf="subiendo" class="uploading-bar">⟳ Subiendo imagen...</div>
+
+    <!-- Galería de evidencias subidas -->
+    <div *ngIf="evidencias.length > 0" class="ev-gallery">
+      <div class="ev-gallery-title">Evidencias subidas ({{ evidencias.length }})</div>
+      <div class="ev-grid">
+        <div class="ev-item" *ngFor="let ev of evidencias" (click)="verEvidencia(ev.url)">
+          <img [src]="ev.url" [alt]="ev.tipo" />
+          <span class="ev-tipo">{{ etiquetaTipo(ev.tipo) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón marcar entregado -->
+    <button
+      class="entregar-btn"
+      [disabled]="evidencias.length === 0 || subiendo"
+      (click)="marcarEntregado()">
+      ✓ Marcar como entregado
+    </button>
+  </div>
+
+  <!-- Visor de imagen ampliada -->
+  <div class="ev-modal" *ngIf="evidenciaAmpliada" (click)="evidenciaAmpliada = ''">
+    <img [src]="evidenciaAmpliada" alt="Evidencia" />
+  </div>
+
+</ion-content>

@@ -1,37 +1,329 @@
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * App Global CSS — BalónGo
+ * Design System con fuente Inter y variables CSS globales
  */
+
+/* Google Fonts — Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* ============================================================
+   DESIGN TOKENS — Variables CSS globales
+   ============================================================ */
+:root {
+  /* Colores principales */
+  --bg:            #f0f4f8;
+  --surface:       #ffffff;
+  --primary:       #02162f;
+  --primary-mid:   #0e3460;
+  --accent:        #3b6cf4;
+  --accent-light:  #e8eeff;
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+  /* Estados de pedido */
+  --pending:       #f97316;
+  --pending-bg:    #fff4ed;
+  --process:       #6366f1;
+  --process-bg:    #eef2ff;
+  --done:          #059669;
+  --done-bg:       #d1fae5;
+
+  /* Texto */
+  --text:          #0f172a;
+  --muted:         #64748b;
+  --subtle:        #94a3b8;
+  --border:        #e2e8f0;
+
+  /* Sombras */
+  --shadow-sm:     0 2px 8px rgba(15,23,42,0.06);
+  --shadow-md:     0 4px 16px rgba(15,23,42,0.08);
+  --shadow-lg:     0 8px 32px rgba(15,23,42,0.12);
+  --shadow-xl:     0 16px 48px rgba(15,23,42,0.16);
+
+  /* Border radius */
+  --radius-sm:     12px;
+  --radius-md:     18px;
+  --radius-lg:     24px;
+  --radius-xl:     32px;
+
+  /* Nav bar height */
+  --nav-height:    72px;
+}
+
+/* ============================================================
+   TIPOGRAFÍA GLOBAL
+   ============================================================ */
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+ion-content {
+  --background: var(--bg);
+}
+
+/* ============================================================
+   COMPONENTES GLOBALES REUTILIZABLES
+   ============================================================ */
+
+/* Header estándar */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 12px;
+  margin-top: 8px;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .header-action {
+    width: 42px;
+    height: 42px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+    color: var(--primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: 1px solid var(--border);
+  }
+}
+
+/* Buscador estándar */
+.search-bar {
+  margin: 0 20px 16px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  box-shadow: var(--shadow-sm);
+
+  .search-ico {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+
+  ion-input {
+    --padding-start: 0;
+    --padding-end: 0;
+    --color: var(--text);
+    --placeholder-color: var(--subtle);
+    font-size: 0.95rem;
+    height: 48px;
+  }
+}
+
+/* FAB Button */
+.fab-btn {
+  position: fixed;
+  right: 20px;
+  bottom: calc(var(--nav-height) + 16px);
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-mid));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 300;
+  box-shadow: 0 8px 24px rgba(2,22,47,0.35);
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: scale(0.94);
+    box-shadow: 0 4px 12px rgba(2,22,47,0.25);
+  }
+}
+
+/* Badge de estado */
+.estado-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  &.pendiente  { background: var(--pending-bg);  color: var(--pending); }
+  &.en-proceso { background: var(--process-bg);  color: var(--process); }
+  &.entregado  { background: var(--done-bg);     color: var(--done);    }
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 999;
+  padding: 0;
+}
+
+.bottom-sheet {
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 12px 24px 32px;
+  box-shadow: var(--shadow-xl);
+  max-height: 92vh;
+  overflow-y: auto;
+
+  .sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 20px;
+    text-align: center;
+  }
+}
+
+/* Input field estándar */
+.field-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .field-input {
+    width: 100%;
+    height: 52px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0 14px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+  }
+
+  ion-input {
+    height: 52px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --color: var(--text);
+    --placeholder-color: var(--subtle);
+    font-size: 0.95rem;
+  }
+}
+
+/* Botones principales */
+.btn-primary {
+  width: 100%;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-mid));
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+
+  &:active { transform: scale(0.98); }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 56px;
+  background: var(--bg);
+  color: var(--primary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Botones row */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+
+  .btn-secondary, .btn-primary {
+    flex: 1;
+  }
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 56px 20px;
+  color: var(--muted);
+
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+/* Quitar dark mode automático por ahora */
+@media (prefers-color-scheme: dark) {
+  ion-content { --background: var(--bg); }
+}

@@ -1,0 +1,34 @@
+<ion-content class="rep-login-content">
+  <div class="rep-login-bg"></div>
+  <div class="rep-login-wrapper">
+
+    <div class="rep-logo">
+      <div class="rep-icon">🚚</div>
+      <h1>Repartidor</h1>
+      <p>BalónGo — Acceso de entrega</p>
+    </div>
+
+    <div class="rep-card">
+      <div class="input-field">
+        <span class="input-icon">✉</span>
+        <input type="email" placeholder="Correo electrónico" [(ngModel)]="email"
+          (keyup.enter)="ingresar()" class="native-input" />
+      </div>
+      <div class="input-field">
+        <span class="input-icon">🔒</span>
+        <input [type]="mostrarPassword ? 'text' : 'password'" placeholder="Contraseña"
+          [(ngModel)]="password" (keyup.enter)="ingresar()" class="native-input" />
+        <button class="eye-btn" (click)="togglePassword()">
+          {{ mostrarPassword ? '👁' : '🙈' }}
+        </button>
+      </div>
+      <button class="rep-login-btn" (click)="ingresar()" [disabled]="cargando">
+        <span *ngIf="!cargando">Ingresar</span>
+        <span *ngIf="cargando">Cargando...</span>
+      </button>
+      <p class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</p>
+    </div>
+
+    <p class="version-txt">v1.0 · BalónGo</p>
+  </div>
+</ion-content>

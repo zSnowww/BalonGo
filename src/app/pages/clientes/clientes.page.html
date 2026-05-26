@@ -1,20 +1,13 @@
 <ion-content class="clientes-content">
   <div class="clientes-wrapper">
-    <div class="top-header">
-      <div class="header-text">
-        <h1>Clientes</h1>
-        <p>Gestión de clientes registrados</p>
-      </div>
-      <div
-        class="back-icon"
-        routerLink="/dashboard">
-        ✕
-      </div>
+
+    <div class="page-header">
+      <h1>Clientes</h1>
+      <div class="header-count">{{ clientes.length }}</div>
     </div>
-    <div class="search-box">
-      <div class="search-icon">
-        🔎
-      </div>
+
+    <div class="search-bar">
+      <span class="search-ico">🔍</span>
       <ion-input
         placeholder="Buscar cliente..."
         type="text"
@@ -22,75 +15,56 @@
         (ionInput)="aplicarBusqueda()">
       </ion-input>
     </div>
+
     <div class="clientes-list">
-      <div
-        class="cliente-card"
-        *ngFor="let cliente of clientesFiltrados">
-        <div class="cliente-left">
-          <div class="avatar">
-            {{ cliente.iniciales }}
-          </div>
-          <div class="cliente-info">
-            <h2>
-              {{ cliente.nombre }}
-            </h2>
-            <p>
-              {{ cliente.telefono }}
-            </p>
-          </div>
-        </div>
-        <div class="cliente-actions">
-          <button
-            class="edit-btn"
-            (click)="editarCliente(cliente)">
-            ✏️
-          </button>
-          <button
-            class="delete-btn"
-            (click)="confirmarEliminar(cliente)">
-            🗑️
-          </button>
-        </div>
+      <div *ngIf="clientesFiltrados.length === 0" class="empty-state">
+        <div class="empty-icon">👥</div>
+        <p>No hay clientes</p>
       </div>
-    </div>
-    <div
-      class="fab-button"
-      (click)="toggleFormulario()">
-      +
-    </div>
-    <div
-      class="modal-overlay"
-      *ngIf="mostrarFormulario">
-      <div class="modal-form">
-        <h2>
-          {{ editando ? 'Editar Cliente' : 'Nuevo Cliente' }}
-        </h2>
-        <ion-input
-          placeholder="Nombre completo"
-          [(ngModel)]="nuevoNombre">
-        </ion-input>
-        <ion-input
-          placeholder="Teléfono"
-          type="tel"
-          [(ngModel)]="nuevoTelefono">
-        </ion-input>
-        <ion-input
-          placeholder="Dirección de entrega"
-          [(ngModel)]="nuevaDireccion">
-        </ion-input>
-        <div class="modal-buttons">
-          <button
-            class="cancel-btn"
-            (click)="toggleFormulario()">
-            Cancelar
-          </button>
-          <button
-            class="add-btn"
-            (click)="guardarCliente()">
-            {{ editando ? 'Guardar' : 'Agregar' }}
-          </button>
+
+      <div class="cliente-card" *ngFor="let cliente of clientesFiltrados">
+        <div class="avatar">{{ cliente.iniciales }}</div>
+        <div class="cliente-info">
+          <h3>{{ cliente.nombre }}</h3>
+          <p>📞 {{ cliente.telefono }}</p>
+          <p>📍 {{ cliente.direccion }}</p>
+        </div>
+        <div class="card-actions">
+          <button class="action-btn edit" (click)="editarCliente(cliente)">✏️</button>
+          <button class="action-btn del" (click)="confirmarEliminar(cliente)">🗑️</button>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="fab-btn" (click)="toggleFormulario()">+</div>
+
+  <div class="modal-overlay" *ngIf="mostrarFormulario" (click)="cerrarSiOverlay($event)">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+      <h2>{{ editando ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+
+      <div class="field-section">
+        <label class="section-label">Nombre completo</label>
+        <input class="field-input" type="text" placeholder="Ej: Juan Pérez" [(ngModel)]="nuevoNombre" />
+      </div>
+      <div class="field-section">
+        <label class="section-label">Teléfono</label>
+        <input class="field-input" type="tel" placeholder="Ej: 987654321" [(ngModel)]="nuevoTelefono" />
+      </div>
+      <div class="field-section">
+        <label class="section-label">Dirección de entrega</label>
+        <input class="field-input" type="text" placeholder="Ej: Jr. Las Flores 123" [(ngModel)]="nuevaDireccion" />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" (click)="toggleFormulario()">Cancelar</button>
+        <button class="btn-primary" (click)="guardarCliente()">
+          {{ editando ? 'Guardar' : 'Agregar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-nav-bar></app-nav-bar>
 </ion-content>

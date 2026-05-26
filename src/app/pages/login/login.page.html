@@ -1,61 +1,65 @@
 <ion-content class="login-content">
+  <div class="login-bg"></div>
   <div class="login-wrapper">
-    <div class="logo-box">
-      <img
-        src="assets/img/Gastonsillo.png"
-        alt="BalónGo - Distribuidora Rogas"
-        class="logo"
-      />
+
+    <!-- Logo -->
+    <div class="logo-section">
+      <div class="logo-circle">
+        <img src="assets/img/Gastonsillo.png" alt="BalónGo" class="logo-img" />
+      </div>
+      <h1>BalónGo</h1>
+      <p>Distribuidora Rogas S.R.L.</p>
     </div>
-    <h1>Bienvenido</h1>
-    <p class="subtitle">
-      Inicia sesión para continuar
-    </p>
+
+    <!-- Selector de modo -->
+    <div class="mode-toggle">
+      <button
+        class="mode-btn"
+        [class.active]="modo === 'admin'"
+        (click)="modo = 'admin'">
+        Administrador
+      </button>
+      <button
+        class="mode-btn"
+        [class.active]="modo === 'repartidor'"
+        (click)="modo = 'repartidor'">
+        Repartidor
+      </button>
+    </div>
+
+    <!-- Card de login -->
     <div class="login-card">
-      <div class="input-group">
-        <div class="input-box">
-          <ion-icon
-            name="mail-outline"
-            class="input-icon">
-          </ion-icon>
-          <ion-input
-            type="email"
-            placeholder="Correo electrónico"
-            [(ngModel)]="email">
-          </ion-input>
-        </div>
-        <div class="input-box">
-          <ion-icon
-            name="lock-closed-outline"
-            class="input-icon">
-          </ion-icon>
-          <ion-input
-            [type]="mostrarPassword ? 'text' : 'password'"
-            placeholder="Contraseña"
-            [(ngModel)]="password">
-          </ion-input>
-          <ion-icon
-            [name]="mostrarPassword ? 'eye-outline' : 'eye-off-outline'"
-            class="eye-icon"
-            (click)="togglePassword()">
-          </ion-icon>
-        </div>
+      <div class="input-field">
+        <span class="input-icon">✉</span>
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          [(ngModel)]="email"
+          (keyup.enter)="ingresar()"
+          class="native-input" />
       </div>
-      <div class="options-row">
-        <div class="remember">
-          <input type="checkbox">
-          <span>Recordarme</span>
-        </div>
-        <a class="forgot-password">
-          ¿Olvidaste tu contraseña?
-        </a>
+
+      <div class="input-field">
+        <span class="input-icon">🔒</span>
+        <input
+          [type]="mostrarPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          [(ngModel)]="password"
+          (keyup.enter)="ingresar()"
+          class="native-input" />
+        <button class="eye-btn" (click)="togglePassword()">
+          {{ mostrarPassword ? '👁' : '🙈' }}
+        </button>
       </div>
-      <ion-button
-        expand="block"
-        class="login-btn"
-        (click)="ingresar()">
-        INGRESAR
-      </ion-button>
+
+      <button class="login-btn" (click)="ingresar()" [disabled]="cargando">
+        <span *ngIf="!cargando">Ingresar</span>
+        <span *ngIf="cargando" class="spinner">⟳</span>
+      </button>
+
+      <p class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</p>
     </div>
+
+    <p class="version-text">v1.0 · BalónGo</p>
   </div>
 </ion-content>

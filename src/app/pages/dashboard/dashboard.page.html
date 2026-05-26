@@ -1,64 +1,100 @@
-<ion-content class="dashboard-content">
-  <div class="dashboard-wrapper">
-    <div class="top-header">
-      <div class="header-text">
-        <h1>Hola, {{ nombreUsuario }}</h1>
-        <p>Resumen de actividad de hoy</p>
+<ion-content class="dash-content">
+  <div class="dash-wrapper">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <div>
+        <p class="saludo">{{ saludo }},</p>
+        <h1>{{ nombreUsuario }}</h1>
       </div>
-      <div class="logout-icon" routerLink="/login" (click)="cerrarSesion()">⎋</div>
+      <div class="avatar-btn" routerLink="/perfil">
+        {{ iniciales }}
+      </div>
     </div>
 
-    <!-- Tarjetas de estadísticas reales -->
+    <!-- Stats grid -->
     <div class="stats-grid">
-      <div class="stat-card clientes-card" routerLink="/clientes">
-        <div class="stat-icon clientes-icon">👥</div>
-        <h2>{{ totalClientes }}</h2>
-        <p>Clientes</p>
+      <div class="stat-card" routerLink="/clientes">
+        <div class="stat-icon clients-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <span class="stat-num">{{ totalClientes }}</span>
+        <span class="stat-lbl">Clientes</span>
       </div>
-      <div class="stat-card pedidos-card" routerLink="/pedidos">
-        <div class="stat-icon pedidos-icon">📋</div>
-        <h2>{{ pendientes }}</h2>
-        <p>Pendientes</p>
+
+      <div class="stat-card pending" routerLink="/pedidos">
+        <div class="stat-icon pending-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <span class="stat-num">{{ pendientes }}</span>
+        <span class="stat-lbl">Pendientes</span>
       </div>
-      <div class="stat-card proceso-card" routerLink="/pedidos">
-        <div class="stat-icon proceso-icon">🚚</div>
-        <h2>{{ enProceso }}</h2>
-        <p>En reparto</p>
+
+      <div class="stat-card process" routerLink="/pedidos">
+        <div class="stat-icon process-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"/>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <span class="stat-num">{{ enProceso }}</span>
+        <span class="stat-lbl">En reparto</span>
       </div>
-      <div class="stat-card perfil-card" routerLink="/historial">
-        <div class="stat-icon perfil-icon">📊</div>
-        <h2>{{ entregados }}</h2>
-        <p>Entregados</p>
+
+      <div class="stat-card done" routerLink="/historial">
+        <div class="stat-icon done-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <span class="stat-num">{{ entregados }}</span>
+        <span class="stat-lbl">Entregados</span>
       </div>
     </div>
 
-    <div class="historial-link" routerLink="/historial">
-      📋 Ver historial completo de entregas →
+    <!-- Acción rápida -->
+    <button class="quick-order" routerLink="/pedidos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Nuevo Pedido
+    </button>
+
+    <!-- Últimos pedidos -->
+    <div class="section-header">
+      <span class="section-title">Últimos pedidos</span>
+      <a class="section-link" routerLink="/pedidos">Ver todos →</a>
     </div>
 
-    <div class="section-title">Últimos pedidos</div>
-
-    <div class="activity-container">
-      <div *ngIf="ultimosPedidos.length === 0" class="no-activity">
-        Sin actividad reciente
+    <div class="recent-list">
+      <div *ngIf="ultimosPedidos.length === 0" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <p>Sin pedidos aún</p>
       </div>
-      <div class="activity-card" *ngFor="let pedido of ultimosPedidos">
-        <div class="activity-left">
-          <div class="activity-icon"
-            [ngClass]="{
-              'success': pedido.estado === 'entregado',
-              'warning': pedido.estado === 'en-proceso',
-              'primary': pedido.estado === 'pendiente'
-            }">
-            {{ pedido.estado === 'entregado' ? '✓' : pedido.estado === 'en-proceso' ? '🚚' : '⏳' }}
-          </div>
-          <div class="activity-info">
-            <h3>{{ pedido.clienteNombre }}</h3>
-            <p>{{ pedido.cantidad }} balón{{ pedido.cantidad !== 1 ? 'es' : '' }} — {{ pedido.estado }}</p>
-          </div>
+
+      <div class="recent-card" *ngFor="let p of ultimosPedidos">
+        <div class="recent-dot" [ngClass]="p.estado"></div>
+        <div class="recent-info">
+          <span class="recent-name">{{ p.clienteNombre }}</span>
+          <span class="recent-detail">{{ p.productoNombre }} · S/ {{ p.total }}</span>
+        </div>
+        <div class="estado-chip" [ngClass]="p.estado">
+          {{ etiqueta(p.estado) }}
         </div>
       </div>
     </div>
 
   </div>
+
+  <!-- Nav inferior -->
+  <app-nav-bar></app-nav-bar>
 </ion-content>

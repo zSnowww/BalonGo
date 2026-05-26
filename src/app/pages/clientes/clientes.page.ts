@@ -1,18 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { IonContent, IonInput, AlertController, ToastController } from '@ionic/angular/standalone';
-
 import { ClientesService } from '../../services/clientes';
 import { Cliente } from '../../models/cliente.model';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonInput]
+  imports: [CommonModule, FormsModule, IonContent, IonInput, NavBarComponent]
 })
 export class ClientesPage implements OnInit {
   private clientesService = inject(ClientesService);
@@ -49,8 +48,12 @@ export class ClientesPage implements OnInit {
 
   toggleFormulario(): void {
     this.mostrarFormulario = !this.mostrarFormulario;
-    if (!this.mostrarFormulario) {
-      this.resetFormulario();
+    if (!this.mostrarFormulario) this.resetFormulario();
+  }
+
+  cerrarSiOverlay(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
+      this.toggleFormulario();
     }
   }
 

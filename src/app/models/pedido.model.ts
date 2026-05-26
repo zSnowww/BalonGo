@@ -1,3 +1,5 @@
+import { Evidencia } from './evidencia.model';
+
 export type EstadoPedido =
   | 'pendiente'
   | 'en-proceso'
@@ -17,4 +19,6 @@ export interface Pedido {
   fecha: Date | any;
   notas?: string;
   repartidor?: string;
+  repartidorId?: string;
+  evidencias?: Evidencia[];
 }

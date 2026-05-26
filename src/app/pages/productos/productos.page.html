@@ -1,128 +1,79 @@
 <ion-content class="productos-content">
   <div class="productos-wrapper">
-    <div class="top-header">
-      <div class="header-text">
-        <h1>Productos</h1>
-        <p>Gestión de productos registrados</p>
-      </div>
-      <div
-        class="close-icon"
-        routerLink="/dashboard">
-        ✕
-      </div>
+    <div class="page-header">
+      <h1>Productos</h1>
+      <div class="header-count">{{ productos.length }}</div>
     </div>
-    <div class="search-box">
-      <ion-input
-        placeholder="Buscar producto..."
-        type="text"
-        [(ngModel)]="busqueda">
-      </ion-input>
+
+    <div class="search-bar">
+      <span class="search-ico">🔍</span>
+      <ion-input placeholder="Buscar producto..." type="text" [(ngModel)]="busqueda"></ion-input>
     </div>
-    <div class="productos-container">
-      <div
-        class="producto-card"
-        *ngFor="
-          let producto of productosFiltrados();
-          let i = index
-        ">
-        <div class="producto-left">
-          <div class="producto-icon">
-            {{ producto.icono }}
-          </div>
-          <div class="producto-info">
-            <h2>
-              {{ producto.nombre }}
-            </h2>
-            <p class="producto-price">
-              💰 S/{{ producto.precio }}
-            </p>
-            <p>
-              📦 Stock disponible:
-              {{ producto.stock }}
-            </p>
-            <div
-              class="stock-badge"
-              [ngClass]="{
-                'stock-ok': producto.stock > 10,
-                'stock-low': producto.stock <= 10
-              }">
-              {{
-                producto.stock > 10
-                  ? 'Stock normal'
-                  : 'Stock bajo'
-              }}
-            </div>
+
+    <div class="productos-grid">
+      <div *ngIf="productosFiltrados().length === 0" class="empty-state">
+        <div class="empty-icon">📦</div>
+        <p>No hay productos</p>
+      </div>
+
+      <div class="producto-card" *ngFor="let producto of productosFiltrados(); let i = index">
+        <div class="prod-top">
+          <div class="prod-icon">{{ producto.icono }}</div>
+          <div class="stock-badge" [ngClass]="producto.stock > 10 ? 'ok' : 'low'">
+            {{ producto.stock > 10 ? '✓ Stock OK' : '⚠ Stock bajo' }}
           </div>
         </div>
-        <div class="producto-actions">
-          <button
-            class="edit-btn"
-            (click)="editarProducto(i)">
-            ✏️
-          </button>
-          <button
-            class="delete-btn"
-            (click)="eliminarProducto(i)">
-            🗑️
-          </button>
+        <h3 class="prod-name">{{ producto.nombre }}</h3>
+        <div class="prod-meta">
+          <span class="prod-price">S/ {{ producto.precio }}</span>
+          <span class="prod-stock">{{ producto.stock }} unidades</span>
         </div>
-      </div>
-    </div>
-    <div
-      class="fab-button"
-      (click)="toggleFormulario()">
-      +
-    </div>
-    <div
-      class="modal-overlay"
-      *ngIf="mostrarFormulario">
-      <div class="modal-form">
-        <h2>
-          {{
-            editando
-              ? 'Editar Producto'
-              : 'Nuevo Producto'
-          }}
-        </h2>
-        <ion-input
-          placeholder="Nombre"
-          [(ngModel)]="nuevoNombre">
-        </ion-input>
-        <ion-input
-          placeholder="Tipo (10kg, 15kg...)"
-          [(ngModel)]="nuevoTipo">
-        </ion-input>
-        <ion-input
-          placeholder="Precio"
-          type="number"
-          [(ngModel)]="nuevoPrecio">
-        </ion-input>
-        <ion-input
-          placeholder="Stock"
-          type="number"
-          [(ngModel)]="nuevoStock">
-        </ion-input>
-        <ion-input
-          placeholder="Emoji/Icono"
-          [(ngModel)]="nuevoIcono">
-        </ion-input>
-        <div class="modal-buttons">
-          <button
-            class="cancel-btn"
-            (click)="toggleFormulario()">
-            Cancelar
-          </button>
-          <button
-            class="add-btn"
-            (click)="guardarProducto()">
-            {{
-              editando
-                ? 'Guardar'
-                : 'Agregar'
-            }}
-          </button>
+        <div class="prod-actions">
+          <button class="action-btn edit" (click)="editarProducto(i)">✏️ Editar</button>
+          <button class="action-btn del" (click)="eliminarProducto(i)">🗑️</button>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="fab-btn" (click)="toggleFormulario()">+</div>
+
+  <div class="modal-overlay" *ngIf="mostrarFormulario" (click)="cerrarSiOverlay($event)">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+      <h2>{{ editando ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
+
+      <div class="form-grid">
+        <div class="field-section">
+          <label class="section-label">Nombre</label>
+          <input class="field-input" type="text" placeholder="Ej: Balón de Gas 10kg" [(ngModel)]="nuevoNombre" />
+        </div>
+        <div class="field-section">
+          <label class="section-label">Tipo</label>
+          <input class="field-input" type="text" placeholder="10kg, 15kg..." [(ngModel)]="nuevoTipo" />
+        </div>
+        <div class="field-section">
+          <label class="section-label">Precio (S/)</label>
+          <input class="field-input" type="number" placeholder="35" [(ngModel)]="nuevoPrecio" />
+        </div>
+        <div class="field-section">
+          <label class="section-label">Stock</label>
+          <input class="field-input" type="number" placeholder="20" [(ngModel)]="nuevoStock" />
+        </div>
+        <div class="field-section">
+          <label class="section-label">Ícono (emoji)</label>
+          <input class="field-input" type="text" placeholder="📦" [(ngModel)]="nuevoIcono" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" (click)="toggleFormulario()">Cancelar</button>
+        <button class="btn-primary" (click)="guardarProducto()">
+          {{ editando ? 'Guardar' : 'Agregar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-nav-bar></app-nav-bar>
 </ion-content>

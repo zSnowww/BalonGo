@@ -1,122 +1,64 @@
 <ion-content class="pedidos-content">
   <div class="pedidos-wrapper">
-    <div class="top-header">
-      <div class="header-text">
-        <h1>Pedidos</h1>
-        <p>Gestión de pedidos en tiempo real</p>
-      </div>
-      <div
-        class="back-icon"
-        routerLink="/dashboard">
-        ✕
-      </div>
+
+    <!-- Header -->
+    <div class="page-header">
+      <h1>Pedidos</h1>
+      <div class="header-badge">{{ pedidos.length }}</div>
     </div>
-    <div class="stats-row">
-      <div
-        class="stat-pill pendiente"
-        (click)="aplicarFiltro('pendiente')"
-        [class.active]="filtroActivo === 'pendiente'">
-        <span class="stat-num">
-          {{ contarPorEstado('pendiente') }}
-        </span>
-        <span>
-          Pendientes
-        </span>
-      </div>
-      <div
-        class="stat-pill en-proceso"
-        (click)="aplicarFiltro('en-proceso')"
-        [class.active]="filtroActivo === 'en-proceso'">
-        <span class="stat-num">
-          {{ contarPorEstado('en-proceso') }}
-        </span>
-        <span>
-          En proceso
-        </span>
-      </div>
-      <div
-        class="stat-pill entregado"
-        (click)="aplicarFiltro('entregado')"
-        [class.active]="filtroActivo === 'entregado'">
-        <span class="stat-num">
-          {{ contarPorEstado('entregado') }}
-        </span>
-        <span>
-          Entregados
-        </span>
-      </div>
+
+    <!-- Chips de filtro -->
+    <div class="filter-chips">
+      <button class="chip" [class.active]="filtroActivo === 'todos'"
+        (click)="aplicarFiltro('todos')">Todos</button>
+      <button class="chip pendiente" [class.active]="filtroActivo === 'pendiente'"
+        (click)="aplicarFiltro('pendiente')">
+        Pendientes · {{ contarPorEstado('pendiente') }}
+      </button>
+      <button class="chip en-proceso" [class.active]="filtroActivo === 'en-proceso'"
+        (click)="aplicarFiltro('en-proceso')">
+        Reparto · {{ contarPorEstado('en-proceso') }}
+      </button>
+      <button class="chip entregado" [class.active]="filtroActivo === 'entregado'"
+        (click)="aplicarFiltro('entregado')">
+        Entregados · {{ contarPorEstado('entregado') }}
+      </button>
     </div>
-    <div
-      class="filter-all"
-      (click)="aplicarFiltro('todos')"
-      [class.active]="filtroActivo === 'todos'">
-      Ver todos los pedidos
-    </div>
+
+    <!-- Lista -->
     <div class="pedidos-list">
-      <div
-        *ngIf="pedidosFiltrados.length === 0"
-        class="empty-state">
-        <div class="empty-icon">
-          📦
-        </div>
-        <p>
-          No hay pedidos en este estado
-        </p>
+      <div *ngIf="pedidosFiltrados.length === 0" class="empty-state">
+        <div class="empty-icon">📦</div>
+        <p>No hay pedidos aquí</p>
       </div>
-      <div
-        class="pedido-card"
-        *ngFor="let pedido of pedidosFiltrados">
-        <div class="pedido-header">
-          <div class="pedido-avatar">
-            {{ obtenerIniciales(pedido.clienteNombre) }}
+
+      <div class="pedido-card" *ngFor="let pedido of pedidosFiltrados">
+        <div class="card-top">
+          <div class="card-avatar">{{ obtenerIniciales(pedido.clienteNombre) }}</div>
+          <div class="card-info">
+            <h3>{{ pedido.clienteNombre }}</h3>
+            <p>{{ pedido.clienteDireccion }}</p>
           </div>
-          <div class="pedido-info">
-            <h2>
-              {{ pedido.clienteNombre }}
-            </h2>
-            <p>
-              📍 {{ pedido.clienteDireccion }}
-            </p>
-            <p>
-              📞 {{ pedido.clienteTelefono }}
-            </p>
-            <p *ngIf="pedido.repartidor">
-              🚚 {{ pedido.repartidor }}
-            </p>
-          </div>
-          <div
-            class="estado-badge"
-            [ngClass]="pedido.estado">
+          <div class="estado-chip" [ngClass]="pedido.estado">
             {{ etiquetaEstado(pedido.estado) }}
           </div>
         </div>
-        <div class="pedido-detail">
-          <span class="balones">
-            🔵 {{ pedido.productoNombre }}
+
+        <div class="card-details">
+          <span class="detail-item">
+            <span class="detail-icon">📦</span>{{ pedido.productoNombre }}
           </span>
-          <span class="balones">
-            📦 {{ pedido.cantidad }}
-          </span>
-          <span class="balones">
-            💰 S/ {{ pedido.total }}
-          </span>
-          <span
-            *ngIf="pedido.notas"
-            class="notas">
-            📝 {{ pedido.notas }}
-          </span>
+          <span class="detail-sep">·</span>
+          <span class="detail-item">{{ pedido.cantidad }} u.</span>
+          <span class="detail-sep">·</span>
+          <span class="detail-item price">S/ {{ pedido.total }}</span>
+          <span *ngIf="pedido.repartidor" class="detail-sep">·</span>
+          <span *ngIf="pedido.repartidor" class="detail-item rep">🚚 {{ pedido.repartidor }}</span>
         </div>
-        <div class="pedido-actions">
-          <button
-            class="edit-btn"
-            (click)="editarPedido(pedido)">
-            ✏️
-          </button>
-          <button
-            class="delete-btn"
-            (click)="confirmarEliminar(pedido)">
-            🗑️
-          </button>
+
+        <div class="card-actions">
+          <button class="action-btn edit" (click)="editarPedido(pedido)">✏️</button>
+          <button class="action-btn del" (click)="confirmarEliminar(pedido)">🗑️</button>
           <button
             class="avanzar-btn"
             [ngClass]="pedido.estado"
@@ -125,114 +67,123 @@
             {{ etiquetaAvance(pedido.estado) }}
           </button>
         </div>
-      </div>
-    </div>
-    <div
-      class="fab-button"
-      (click)="toggleFormulario()">
-      +
-    </div>
-    <div
-      class="modal-overlay"
-      *ngIf="mostrarFormulario">
-      <div class="modal-form">
-        <h2>
-          {{
-            editando
-            ? 'Editar Pedido'
-            : 'Nuevo Pedido'
-          }}
-        </h2>
-        <label class="field-label">
-          Cliente
-        </label>
-        <select
-          class="select-field"
-          [(ngModel)]="clienteSeleccionadoId">
-          <option
-            value=""
-            disabled>
-            Seleccionar cliente...
-          </option>
-          <option
-            *ngFor="let c of clientes"
-            [value]="c.id">
-            {{ c.nombre }}
-            — {{ c.direccion }}
-          </option>
-        </select>
-        <label class="field-label">
-          Producto
-        </label>
-        <select
-          class="select-field"
-          [(ngModel)]="productoSeleccionado">
-          <option
-            value=""
-            disabled>
-            Seleccionar producto...
-          </option>
-          <option
-            *ngFor="let p of productos"
-            [value]="p.nombre">
-            {{ p.nombre }}
-            — S/ {{ p.precio }}
-          </option>
-        </select>
-        <label class="field-label">
-          Cantidad
-        </label>
-        <ion-input
-          type="number"
-          placeholder="Ej: 2"
-          [(ngModel)]="cantidad"
-          min="1">
-        </ion-input>
-        <label class="field-label">
-          Notas (opcional)
-        </label>
-        <ion-input
-          type="text"
-          placeholder="Instrucciones..."
-          [(ngModel)]="notas">
-        </ion-input>
-        <label class="field-label">
-          Repartidor (opcional)
-        </label>
-        <ion-input
-          type="text"
-          placeholder="Nombre del repartidor..."
-          [(ngModel)]="repartidor">
-        </ion-input>
-        <div
-          *ngIf="productoSeleccionado"
-          class="total-box">
-          <div class="total-preview">
-            <span>
-              Total estimado
-            </span>
-            <strong>
-              S/ {{ calcularTotal() }}
-            </strong>
+
+        <!-- Evidencias (si hay) -->
+        <div class="evidencias-row" *ngIf="pedido.evidencias && pedido.evidencias.length > 0">
+          <span class="ev-label">Evidencias:</span>
+          <div class="ev-thumb" *ngFor="let ev of pedido.evidencias">
+            <img [src]="ev.url" [alt]="ev.tipo" (click)="verEvidencia(ev.url)" />
           </div>
         </div>
-        <div class="modal-buttons">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAB -->
+  <div class="fab-btn" (click)="toggleFormulario()">+</div>
+
+  <!-- Bottom Sheet / Formulario -->
+  <div class="modal-overlay" *ngIf="mostrarFormulario" (click)="cerrarSiOverlay($event)">
+    <div class="bottom-sheet" id="sheet-form">
+      <div class="sheet-handle"></div>
+      <h2>{{ editando ? 'Editar Pedido' : 'Nuevo Pedido' }}</h2>
+
+      <!-- 1. Producto — pills -->
+      <div class="field-section">
+        <label class="section-label">Producto</label>
+        <div class="product-pills">
           <button
-            class="cancel-btn"
-            (click)="toggleFormulario()">
-            Cancelar
-          </button>
-          <button
-            class="add-btn"
-            (click)="guardarPedido()">
-            {{
-              editando
-              ? 'Guardar'
-              : 'Crear pedido'
-            }}
+            class="product-pill"
+            *ngFor="let p of productos"
+            [class.selected]="productoSeleccionado === p.nombre"
+            (click)="seleccionarProducto(p)">
+            <span class="pill-icon">{{ p.icono }}</span>
+            <span class="pill-name">{{ p.tipo }}</span>
+            <span class="pill-price">S/{{ p.precio }}</span>
           </button>
         </div>
+      </div>
+
+      <!-- 2. Cliente — búsqueda con dropdown -->
+      <div class="field-section">
+        <label class="section-label">Cliente</label>
+        <div class="client-search">
+          <input
+            class="field-input"
+            type="text"
+            placeholder="Buscar cliente..."
+            [(ngModel)]="busquedaCliente"
+            (input)="filtrarClientes()"
+            (focus)="mostrarDropdown = true" />
+          <div class="client-dropdown" *ngIf="mostrarDropdown && clientesFiltrados.length > 0">
+            <div
+              class="dropdown-item"
+              *ngFor="let c of clientesFiltrados"
+              (click)="seleccionarCliente(c)">
+              <span class="di-nombre">{{ c.nombre }}</span>
+              <span class="di-dir">{{ c.direccion }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Cantidad — stepper -->
+      <div class="field-section">
+        <label class="section-label">Cantidad</label>
+        <div class="stepper">
+          <button class="step-btn" (click)="decrementar()" [disabled]="cantidad <= 1">−</button>
+          <span class="step-val">{{ cantidad }}</span>
+          <button class="step-btn" (click)="incrementar()">+</button>
+        </div>
+      </div>
+
+      <!-- 4. Repartidor -->
+      <div class="field-section">
+        <div class="optional-toggle" (click)="mostrarRepartidor = !mostrarRepartidor">
+          <span>🚚 Repartidor</span>
+          <span class="toggle-arrow">{{ mostrarRepartidor ? '▲' : '▼' }}</span>
+        </div>
+        <div *ngIf="mostrarRepartidor" class="collapsible-field">
+          <select class="field-input select-native" [(ngModel)]="repartidorSeleccionadoId"
+            (change)="onRepartidorChange()">
+            <option value="">Sin asignar</option>
+            <option *ngFor="let r of repartidores" [value]="r.uid">{{ r.nombre }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 5. Notas -->
+      <div class="field-section">
+        <div class="optional-toggle" (click)="mostrarNotas = !mostrarNotas">
+          <span>📝 Notas (opcional)</span>
+          <span class="toggle-arrow">{{ mostrarNotas ? '▲' : '▼' }}</span>
+        </div>
+        <div *ngIf="mostrarNotas" class="collapsible-field">
+          <input class="field-input" type="text" placeholder="Instrucciones de entrega..." [(ngModel)]="notas" />
+        </div>
+      </div>
+
+      <!-- Total -->
+      <div class="total-bar" *ngIf="productoSeleccionado">
+        <span>Total estimado</span>
+        <strong>S/ {{ calcularTotal() }}</strong>
+      </div>
+
+      <!-- Botones -->
+      <div class="btn-row">
+        <button class="btn-secondary" (click)="toggleFormulario()">Cancelar</button>
+        <button class="btn-primary" (click)="guardarPedido()">
+          {{ editando ? 'Guardar' : 'Crear pedido' }}
+        </button>
       </div>
     </div>
   </div>
+
+  <!-- Modal ver evidencia -->
+  <div class="ev-modal" *ngIf="evidenciaAmpliada" (click)="evidenciaAmpliada = ''">
+    <img [src]="evidenciaAmpliada" alt="Evidencia" />
+  </div>
+
+  <app-nav-bar></app-nav-bar>
 </ion-content>

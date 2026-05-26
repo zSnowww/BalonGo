@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   IonContent,
   IonInput
 } from '@ionic/angular/standalone';
 import { Producto } from '../../models/producto.model';
 import { ProductosService } from '../../services/productos.service';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-productos',
@@ -17,14 +17,20 @@ import { ProductosService } from '../../services/productos.service';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
     IonContent,
-    IonInput
+    IonInput,
+    NavBarComponent
   ]
 })
 
 export class ProductosPage {
   private productosService = inject(ProductosService);
+
+  cerrarSiOverlay(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
+      this.toggleFormulario();
+    }
+  }
 
   get productos(): Producto[] {
     return this.productosService.getProductos();

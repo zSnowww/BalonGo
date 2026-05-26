@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { repartidorGuard } from './guards/repartidor.guard';
 
 export const routes: Routes = [
   {
@@ -43,11 +44,31 @@ export const routes: Routes = [
       import('./pages/perfil/perfil.page').then((m) => m.PerfilPage),
   },
   {
-    path: 'pagos',
-    loadComponent: () => 
-      import('./pages/pagos/pagos.page').then( m => m.PagosPage)
+    path: 'productos',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/productos/productos.page').then((m) => m.ProductosPage),
   },
-  // Ruta comodín: redirige URLs desconocidas al login
+  {
+    path: 'pagos',
+    loadComponent: () =>
+      import('./pages/pagos/pagos.page').then((m) => m.PagosPage)
+  },
+  // === MÓDULO REPARTIDOR ===
+  {
+    path: 'repartidor-login',
+    loadComponent: () =>
+      import('./pages/repartidor-login/repartidor-login.page').then(
+        (m) => m.RepartidorLoginPage
+      ),
+  },
+  {
+    path: 'repartidor',
+    canActivate: [repartidorGuard],
+    loadComponent: () =>
+      import('./pages/repartidor/repartidor.page').then((m) => m.RepartidorPage),
+  },
+  // Ruta comodín
   {
     path: '**',
     redirectTo: 'login',
