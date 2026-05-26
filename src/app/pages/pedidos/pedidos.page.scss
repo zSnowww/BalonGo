@@ -382,3 +382,19 @@
   background: linear-gradient(135deg, #032451, #1c3a67);
   color: white;
 }
+
+.total-box {
+  margin-top: 18px;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 18px;
+}
+
+.total-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #02162f;
+  font-weight: 800;
+  font-size: 1rem;
+}

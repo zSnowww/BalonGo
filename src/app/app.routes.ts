@@ -42,9 +42,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/perfil/perfil.page').then((m) => m.PerfilPage),
   },
+  {
+    path: 'pagos',
+    loadComponent: () => 
+      import('./pages/pagos/pagos.page').then( m => m.PagosPage)
+  },
   // Ruta comodín: redirige URLs desconocidas al login
   {
     path: '**',
     redirectTo: 'login',
-  }
+  },
 ];

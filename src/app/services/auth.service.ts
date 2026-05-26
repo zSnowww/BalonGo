@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   constructor(private router: Router) {
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(this.auth, (user: User | null) => {
       this.userSubject.next(user);
     });
   }
@@ -45,7 +45,7 @@ export class AuthService {
   /** Espera a que Firebase Auth resuelva el estado inicial */
   waitForAuth(): Promise<User | null> {
     return new Promise((resolve) => {
-      const unsub = onAuthStateChanged(this.auth, (user) => {
+      const unsub = onAuthStateChanged(this.auth, (user: User | null) => {
         unsub();
         resolve(user);
       });

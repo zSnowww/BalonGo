@@ -29,7 +29,7 @@ export class ClientesService {
           }));
           subscriber.next(clientes);
         },
-        (error) => subscriber.error(error)
+        (error: Error) => subscriber.error(error)
       );
       return unsub; // se llama automáticamente al unsubscribe
     });

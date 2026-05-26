@@ -1,4 +1,7 @@
-export type EstadoPedido = 'pendiente' | 'en-proceso' | 'entregado';
+export type EstadoPedido =
+  | 'pendiente'
+  | 'en-proceso'
+  | 'entregado';
 
 export interface Pedido {
   id?: string;
@@ -6,7 +9,10 @@ export interface Pedido {
   clienteNombre: string;
   clienteTelefono: string;
   clienteDireccion: string;
+  productoNombre: string;
+  precioUnitario: number;
   cantidad: number;
+  total: number;
   estado: EstadoPedido;
   fecha: Date | any;
   notas?: string;

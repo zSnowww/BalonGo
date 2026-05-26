@@ -14,13 +14,17 @@
     <div class="search-box">
       <ion-input
         placeholder="Buscar producto..."
-        type="text">
+        type="text"
+        [(ngModel)]="busqueda">
       </ion-input>
     </div>
     <div class="productos-container">
       <div
         class="producto-card"
-        *ngFor="let producto of productos; let i = index">
+        *ngFor="
+          let producto of productosFiltrados();
+          let i = index
+        ">
         <div class="producto-left">
           <div class="producto-icon">
             {{ producto.icono }}
@@ -29,9 +33,25 @@
             <h2>
               {{ producto.nombre }}
             </h2>
-            <p>
-              Stock disponible: {{ producto.stock }}
+            <p class="producto-price">
+              💰 S/{{ producto.precio }}
             </p>
+            <p>
+              📦 Stock disponible:
+              {{ producto.stock }}
+            </p>
+            <div
+              class="stock-badge"
+              [ngClass]="{
+                'stock-ok': producto.stock > 10,
+                'stock-low': producto.stock <= 10
+              }">
+              {{
+                producto.stock > 10
+                  ? 'Stock normal'
+                  : 'Stock bajo'
+              }}
+            </div>
           </div>
         </div>
         <div class="producto-actions">
@@ -60,8 +80,8 @@
         <h2>
           {{
             editando
-            ? 'Editar Producto'
-            : 'Nuevo Producto'
+              ? 'Editar Producto'
+              : 'Nuevo Producto'
           }}
         </h2>
         <ion-input
@@ -69,9 +89,22 @@
           [(ngModel)]="nuevoNombre">
         </ion-input>
         <ion-input
+          placeholder="Tipo (10kg, 15kg...)"
+          [(ngModel)]="nuevoTipo">
+        </ion-input>
+        <ion-input
+          placeholder="Precio"
+          type="number"
+          [(ngModel)]="nuevoPrecio">
+        </ion-input>
+        <ion-input
           placeholder="Stock"
           type="number"
           [(ngModel)]="nuevoStock">
+        </ion-input>
+        <ion-input
+          placeholder="Emoji/Icono"
+          [(ngModel)]="nuevoIcono">
         </ion-input>
         <div class="modal-buttons">
           <button
@@ -84,8 +117,8 @@
             (click)="guardarProducto()">
             {{
               editando
-              ? 'Guardar'
-              : 'Agregar'
+                ? 'Guardar'
+                : 'Agregar'
             }}
           </button>
         </div>

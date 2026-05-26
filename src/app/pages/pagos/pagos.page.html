@@ -1,0 +1,83 @@
+<ion-content class="pagos-content">
+  <div class="pagos-wrapper">
+    <div class="top-header">
+      <div class="header-text">
+        <h1>Pago del Pedido</h1>
+        <p>Finaliza el cobro del pedido</p>
+      </div>
+      <div class="back-icon" (click)="cancelarPago()">
+        ✕
+      </div>
+    </div>
+    <div class="payment-card">
+      <div class="cliente-section">
+        <div class="cliente-avatar">
+          {{ obtenerIniciales(pedido.clienteNombre) }}
+        </div>
+        <div class="cliente-info">
+          <h2>{{ pedido.clienteNombre }}</h2>
+          <p>📍 {{ pedido.clienteDireccion }}</p>
+          <p>📞 {{ pedido.clienteTelefono }}</p>
+        </div>
+      </div>
+      <div class="resumen-box">
+        <div class="resumen-item">
+          <span>Producto</span>
+          <strong>
+            {{ pedido.productoNombre }}
+          </strong>
+        </div>
+        <div class="resumen-item">
+          <span>Cantidad</span>
+          <strong>
+            {{ pedido.cantidad }}
+          </strong>
+        </div>
+        <div class="resumen-item">
+          <span>Precio unitario</span>
+          <strong>
+            S/
+            {{
+              (pedido.total / pedido.cantidad).toFixed(2)
+            }}
+          </strong>
+        </div>
+        <div class="resumen-item total">
+          <span>Total</span>
+          <strong>
+            S/ {{ total.toFixed(2) }}
+          </strong>
+        </div>
+      </div>
+      <div class="qr-section">
+        <h3>Escanea para pagar</h3>
+        <div class="qr-container">
+          <qrcode
+            [qrdata]="qrData"
+            [width]="220"
+            [errorCorrectionLevel]="'M'">
+          </qrcode>
+        </div>
+        <div class="mercado-info">
+          <p>Pago rápido con Mercado Pago</p>
+          <span>Monto automático incluido</span>
+        </div>
+      </div>
+      <div class="payment-status">
+        <div class="status-dot"></div>
+        Esperando confirmación del pago...
+      </div>
+      <div class="buttons-container">
+        <button class="confirm-btn" (click)="confirmarPagoDigital()">
+          ✓ Pago Realizado
+        </button>
+        <button class="cash-btn" (click)="confirmarPagoEfectivo()">
+          💵 Pago en Efectivo
+        </button>
+        <button class="cancel-btn" (click)="cancelarPago()">
+          Cancelar Pago
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

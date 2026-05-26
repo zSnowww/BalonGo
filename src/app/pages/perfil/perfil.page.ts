@@ -14,7 +14,7 @@ import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, IonContent, IonInput]
+  imports: [CommonModule, FormsModule, RouterLink, IonContent]
 })
 export class PerfilPage implements OnInit {
   private authService = inject(AuthService);
