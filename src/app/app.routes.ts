@@ -54,6 +54,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/pagos/pagos.page').then((m) => m.PagosPage)
   },
+  {
+    path: 'repartidores',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/repartidores/repartidores.page').then((m) => m.RepartidoresPage),
+  },
   // === MÓDULO REPARTIDOR ===
   {
     path: 'repartidor-login',

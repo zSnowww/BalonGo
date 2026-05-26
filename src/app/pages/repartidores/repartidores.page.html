@@ -1,0 +1,91 @@
+<ion-content class="rep-mgmt-content">
+  <div class="rep-mgmt-wrapper">
+
+    <div class="page-header">
+      <div>
+        <h1>Repartidores</h1>
+        <p class="subtitle">{{ repartidores.length }} registrado{{ repartidores.length !== 1 ? 's' : '' }}</p>
+      </div>
+      <button class="add-btn" (click)="toggleFormulario()">+ Nuevo</button>
+    </div>
+
+    <!-- Lista -->
+    <div class="rep-list">
+      <div *ngIf="repartidores.length === 0" class="empty-state">
+        <div class="empty-icon">🚚</div>
+        <p>No hay repartidores registrados</p>
+      </div>
+
+      <div class="rep-card" *ngFor="let rep of repartidores">
+        <div class="rep-avatar" [class.inactive]="!rep.activo">
+          {{ rep.nombre.slice(0,2).toUpperCase() }}
+        </div>
+        <div class="rep-info">
+          <h3>{{ rep.nombre }}</h3>
+          <p>{{ rep.email }}</p>
+          <span class="estado-chip" [class.activo]="rep.activo" [class.inactivo]="!rep.activo">
+            {{ rep.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+        <div class="rep-actions">
+          <button
+            class="toggle-btn"
+            [class.deactivate]="rep.activo"
+            (click)="toggleEstado(rep)">
+            {{ rep.activo ? 'Desactivar' : 'Activar' }}
+          </button>
+          <button class="del-btn" (click)="confirmarEliminar(rep)">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAB alternativo si están en lista larga -->
+
+  <!-- Bottom Sheet — Nuevo repartidor -->
+  <div class="modal-overlay" *ngIf="mostrarFormulario" (click)="cerrarSiOverlay($event)">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+      <h2>Nuevo Repartidor</h2>
+
+      <div class="field-section">
+        <label class="section-label">Nombre completo</label>
+        <input class="field-input" type="text" placeholder="Ej: Carlos Quispe"
+          [(ngModel)]="nuevoNombre" />
+      </div>
+
+      <div class="field-section">
+        <label class="section-label">Correo electrónico</label>
+        <input class="field-input" type="email" placeholder="carlos@balongo.com"
+          [(ngModel)]="nuevoEmail" />
+      </div>
+
+      <div class="field-section">
+        <label class="section-label">Contraseña</label>
+        <div class="password-field">
+          <input class="field-input"
+            [type]="mostrarPassword ? 'text' : 'password'"
+            placeholder="Mínimo 6 caracteres"
+            [(ngModel)]="nuevaPassword" />
+          <button class="eye-btn" (click)="mostrarPassword = !mostrarPassword">
+            {{ mostrarPassword ? '👁' : '🙈' }}
+          </button>
+        </div>
+        <p class="field-hint">El repartidor usará estos datos para ingresar.</p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" (click)="toggleFormulario()" [disabled]="cargando">
+          Cancelar
+        </button>
+        <button class="btn-primary" (click)="crearRepartidor()" [disabled]="cargando">
+          <span *ngIf="!cargando">Crear cuenta</span>
+          <span *ngIf="cargando">Creando...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-nav-bar></app-nav-bar>
+</ion-content>

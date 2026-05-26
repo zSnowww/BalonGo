@@ -191,9 +191,9 @@ export class PedidosPage implements OnInit {
       precioUnitario: this.precioUnitario,
       cantidad: this.cantidad,
       total: this.calcularTotal(),
-      notas: this.notas,
-      repartidor: this.repartidorNombre || undefined,
-      repartidorId: this.repartidorSeleccionadoId || undefined
+      notas: this.notas || '',
+      ...(this.repartidorNombre    ? { repartidor:   this.repartidorNombre }           : {}),
+      ...(this.repartidorSeleccionadoId ? { repartidorId: this.repartidorSeleccionadoId } : {})
     };
 
     if (this.editando && this.pedidoEditandoId) {
