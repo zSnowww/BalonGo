@@ -12,7 +12,6 @@ import {
   onSnapshot,
   query,
   where,
-  orderBy,
   serverTimestamp
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -56,16 +55,19 @@ export class EvidenciasService {
   /** Observable con las evidencias de un pedido */
   obtenerEvidencias(pedidoId: string): Observable<Evidencia[]> {
     return new Observable((sub) => {
-      const ref = collection(this.db, 'evidencias');
+      const colRef = collection(this.db, 'evidencias');
       const q = query(
-        ref,
-        where('pedidoId', '==', pedidoId),
-        orderBy('fecha', 'asc')
+        colRef,
+        where('pedidoId', '==', pedidoId)
       );
       const unsub = onSnapshot(q, (snap) => {
-        const evidencias = snap.docs.map((d) => ({
-          ...(d.data() as Evidencia)
-        }));
+        const evidencias = snap.docs
+          .map((d) => ({ ...(d.data() as Evidencia) }))
+          .sort((a, b) => {
+            const ta = a.fecha?.toMillis?.() ?? a.fecha?.seconds ?? 0;
+            const tb = b.fecha?.toMillis?.() ?? b.fecha?.seconds ?? 0;
+            return ta - tb;
+          });
         sub.next(evidencias);
       }, (e) => sub.error(e));
       return unsub;
