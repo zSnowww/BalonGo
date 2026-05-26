@@ -115,7 +115,7 @@
             placeholder="Buscar cliente..."
             [(ngModel)]="busquedaCliente"
             (input)="filtrarClientes()"
-            (focus)="mostrarDropdown = true" />
+            (focus)="filtrarClientes()" />
           <div class="client-dropdown" *ngIf="mostrarDropdown && clientesFiltrados.length > 0">
             <div
               class="dropdown-item"
